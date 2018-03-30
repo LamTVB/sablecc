@@ -50,6 +50,9 @@ public class MSuperMacro {
     sb.append("    final Map<Context, BuildState> build_states = new LinkedHashMap<>();");
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
+    sb.append("    final LinkedList<Macro> children = new LinkedList<>();");
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
     sb.append("    public String build(){");
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
@@ -74,6 +77,13 @@ public class MSuperMacro {
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
     sb.append("        throw new RuntimeException(\"apply cannot be called here\");");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    }");
+    sb.append(System.getProperty("line.separator"));
+    sb.append(System.getProperty("line.separator"));
+    sb.append("    LinkedList<Macro> getChildren(){");
+    sb.append(System.getProperty("line.separator"));
+    sb.append("        return this.children;");
     sb.append(System.getProperty("line.separator"));
     sb.append("    }");
     sb.append(System.getProperty("line.separator"));

@@ -25,18 +25,20 @@ public class Cycle {
 
         System.out.print("---------- Cyclic Reference ----------\n");
         MF f = new MF();
-        MG g = new MG();
         MH h = new MH();
+        MH h2 = new MH();
+        MF f2 = new MF();
+
         f.addY(h);
-        f.addX(g);
-        f.addX(g);
-        h.addLala(f);
+        h.addLala(f2);
+        f2.addY(h2);
 
         try{
-            System.out.print(f.build());
+            h2.addLala(f);
             System.err.println("It should throw an exception here");
             System.exit(1);
-        }catch(ObjectMacroException e){
+        }
+        catch(ObjectMacroException e){
             System.out.println(e.getMessage());
         }
     }
