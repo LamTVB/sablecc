@@ -103,5 +103,6 @@ public class UtilsGenerationWalker
         GenerationUtils.writeFile(this.packageDirectory, "DSeparator.java", mClassSeparator.toString());
 
         GenerationUtils.writeFile(this.packageDirectory, "BuildState.java", mClassBuildState.toString());
+        GenerationUtils.writeFile(this.packageDirectory, "Tarjan.java", mTarjanClass.toString());
     }
 }
