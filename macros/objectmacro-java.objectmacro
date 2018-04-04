@@ -74,107 +74,46 @@ $macro: parent_internals_setter(name) $
     }
 $end: parent_internals_setter $
 
-$comment: ============ tarjan_class ============= $
+$comment: ============ cycle_detector ============= $
 
-$macro: tarjan_class $
+$macro: cycle_detector_class $
 $insert: header $
 $expand: package_declaration, before_first="\n" $
-$expand: import_java_util $
+$expand: import_java_util, before_first="\n" $
 
-public class Tarjan {
+public class CycleDetector {
 
-    private final Map<Macro, Macro> representativeMap = new HashMap<>();
+    private Macro receiver;
 
-    private final Map<Macro, Set<Macro>> memberMap = new LinkedHashMap<>();
+    private Set<Macro> macros;
 
-    private final LinkedList<Macro> macros;
+    void detectCycle(
+            Macro receiver,
+            Macro added){
 
-    private final Macro attemptedMacro;
-
-    private final Map<Macro, NodeInfo> infoMap = new HashMap<>();
-
-    private final LinkedList<Macro> stack = new LinkedList<>();
-
-    private int time = 0;
-
-    Tarjan(
-            Macro startingPoint,
-            Macro attemptedMacro){
-
-        this.attemptedMacro = attemptedMacro;
-        this.macros = new LinkedList<>(attemptedMacro.getChildren());
-        this.macros.add(attemptedMacro);
-        this.macros.add(startingPoint);
+        this.macros = new LinkedHashSet<>();
+        this.receiver = receiver;
+        detectCycle(added);
     }
 
-    class NodeInfo{
-
-        int discoveryTime;
-
-        int lowestReachableDiscoveryTime;
-
-        boolean onStack;
-    }
-
-    void detectCycle(){
-
-        for(Macro macro : macros){
-            if(this.infoMap.get(macro) == null){
-                tarjan(macro);
-            }
-        }
-
-        Macro representativeAttempted = this.representativeMap.get(this.attemptedMacro);
-
-        if(representativeAttempted != this.attemptedMacro){
-            throw ObjectMacroException.cyclicReference(this.attemptedMacro.toString());
-        }
-    }
-
-    void tarjan(
+    private void detectCycle(
             Macro macro){
 
-        NodeInfo nodeInfo = new NodeInfo();
-        nodeInfo.discoveryTime = this.time;
-        nodeInfo.lowestReachableDiscoveryTime = this.time;
-        nodeInfo.onStack = true;
-        this.infoMap.put(macro, nodeInfo);
-        this.stack.addFirst(macro);
-
-        this.time++;
-
-        for(Macro child : macro.getChildren()){
-            NodeInfo childInfo = this.infoMap.get(child);
-            if(childInfo == null || childInfo.onStack){
-                if(childInfo == null){
-                    tarjan(child);
-                    childInfo = this.infoMap.get(child);
-                }
-                nodeInfo.lowestReachableDiscoveryTime = Math.min(
-                        nodeInfo.lowestReachableDiscoveryTime,
-                        childInfo.lowestReachableDiscoveryTime);
-            }
+        if(this.macros.contains(macro)){
+            return;
         }
 
-        if(nodeInfo.lowestReachableDiscoveryTime == nodeInfo.discoveryTime){
+        this.macros.add(macro);
 
-            Macro member;
-            Set<Macro> members = new LinkedHashSet<>();
-            do {
-                member = this.stack.removeFirst();
-                NodeInfo memberInfo = this.infoMap.get(member);
-                memberInfo.onStack = false;
-                this.representativeMap.put(member, macro);
-                members.add(member);
+        for(Macro child : macro.getChildren()){
+            if(child == this.receiver){
+                throw ObjectMacroException.cyclicReference(child.getClass().getSimpleName());
             }
-            while (member != macro);
-
-            members = Collections.unmodifiableSet(members);
-            this.memberMap.put(macro, members);
+            detectCycle(child);
         }
     }
 }
-$end: tarjan_class $
+$end: cycle_detector_class $
 
 $comment: ========== super_macro ========== $
 
@@ -192,6 +131,8 @@ public abstract class Macro {
     final Map<Context, BuildState> build_states = new LinkedHashMap<>();
 
     final LinkedList<Macro> children = new LinkedList<>();
+
+    static final CycleDetector cycleDetector = new CycleDetector();
 
     public String build(){
 
@@ -464,7 +405,7 @@ $macro: single_add(macro_name, param_name) $
 
         this.list_$param_name.add(macro);
         this.children.add(macro);
-        new Tarjan(this, macro).detectCycle();
+        Macro.cycleDetector.detectCycle(this, macro);
     }
 $end: single_add $
 

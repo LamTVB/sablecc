@@ -55,7 +55,7 @@ public class UtilsGenerationWalker
         MClassInternalValue mClassInternalValue = new MClassInternalValue();
         mClassInternalValue.newImportJavaUtil();
         MClassBuildState mClassBuildState = new MClassBuildState();
-        MTarjanClass mTarjanClass = new MTarjanClass();
+        MCycleDetectorClass mTarjanClass = new MCycleDetectorClass();
         mTarjanClass.newImportJavaUtil();
 
         MSuperDirective mSuperDirective = new MSuperDirective();
@@ -103,6 +103,6 @@ public class UtilsGenerationWalker
         GenerationUtils.writeFile(this.packageDirectory, "DSeparator.java", mClassSeparator.toString());
 
         GenerationUtils.writeFile(this.packageDirectory, "BuildState.java", mClassBuildState.toString());
-        GenerationUtils.writeFile(this.packageDirectory, "Tarjan.java", mTarjanClass.toString());
+        GenerationUtils.writeFile(this.packageDirectory, "CycleDetector.java", mTarjanClass.toString());
     }
 }
