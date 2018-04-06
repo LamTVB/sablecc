@@ -78,39 +78,131 @@ $comment: ============ cycle_detector ============= $
 
 $macro: cycle_detector_class $
 $insert: header $
-$expand: package_declaration, before_first="\n" $
+$expand: package_declaration$
 $expand: import_java_util, before_first="\n" $
 
 public class CycleDetector {
 
-    private Macro receiver;
+    private enum STATE {CYCLE, DELTA, NORMAL}
 
-    private Set<Macro> macros;
-
-    void detectCycle(
-            Macro receiver,
-            Macro added){
-
-        this.macros = new LinkedHashSet<>();
-        this.receiver = receiver;
-        detectCycle(added);
+    class NodeInfo{
+        int level = 1;
+        List<NodeInfo> outgoing = new LinkedList<>();
+        List<NodeInfo> incoming = new LinkedList<>();
     }
 
-    private void detectCycle(
-            Macro macro){
+    private Map<Macro, NodeInfo> nodes = new LinkedHashMap<>();
+    private List<NodeInfo> visitedBackward = new LinkedList<>();
+    private int nbVertices = 0;
+    private int nbArcs = 0;
+    private int delta;
 
-        if(this.macros.contains(macro)){
-            return;
+    private NodeInfo getNodeInfo(
+                Macro macro){
+
+        NodeInfo nodeInfo = this.nodes.get(macro);
+        if(nodeInfo == null){
+            nodeInfo = new NodeInfo();
+            this.nbVertices++;
+            this.delta = Math.min((int) Math.pow(nbArcs, 1/2), (int)Math.pow(
+                    nbVertices, 2/3));
+            this.nodes.put(macro, nodeInfo);
         }
 
-        this.macros.add(macro);
+        return nodeInfo;
+    }
 
-        for(Macro child : macro.getChildren()){
-            if(child == this.receiver){
-                throw ObjectMacroException.cyclicReference(child.getClass().getSimpleName());
+    public void addEdge(
+            Macro v,
+            Macro w){
+
+        NodeInfo vInfo = getNodeInfo(v);
+        NodeInfo wInfo = getNodeInfo(w);
+        this.visitedBackward = new LinkedList<>();
+
+        if(vInfo.level >= wInfo.level){
+
+            STATE state = backwardSearch(vInfo, wInfo);
+            boolean step3 = false;
+            if(state.equals(STATE.NORMAL)
+                    && vInfo.level > wInfo.level){
+
+                wInfo.level = vInfo.level;
+                wInfo.incoming.clear();
+                step3 = true;
             }
-            detectCycle(child);
+            else if(state.equals(STATE.DELTA)){
+
+                wInfo.level = vInfo.level + 1;
+                this.visitedBackward.clear();
+                this.visitedBackward.add(vInfo);
+                wInfo.incoming.clear();
+                step3 = true;
+            }
+            else if(state.equals(STATE.CYCLE)){
+                throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
+            }
+
+            if(step3 && forwardSearch(wInfo).equals(STATE.CYCLE)){
+                throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
+            }
         }
+
+        vInfo.outgoing.add(wInfo);
+        if(vInfo.level == wInfo.level){
+            wInfo.incoming.add(vInfo);
+        }
+
+        this.nbArcs++;
+        this.delta = Math.min((int) Math.pow(this.nbArcs, 1/2), (int)Math.pow(this.nbVertices, 2/3));
+    }
+
+    private STATE backwardSearch(
+            NodeInfo v,
+            NodeInfo w){
+
+        int nbVisited = 0;
+        for(NodeInfo inNode : v.incoming){
+            if(inNode.equals(w)){
+                return STATE.CYCLE;
+            }
+            nbVisited++;
+            if(nbVisited >= this.delta){
+                return STATE.DELTA;
+            }
+            this.visitedBackward.add(inNode);
+        }
+
+        this.visitedBackward.add(v);
+        return STATE.NORMAL;
+
+    }
+
+    private STATE forwardSearch(
+            NodeInfo x){
+
+        for(NodeInfo y : x.outgoing){
+            if(this.visitedBackward.contains(y)){
+                return STATE.CYCLE;
+            }
+
+            if(x.level == y.level){
+                y.incoming.add(x);
+            }
+
+            if(x.level > y.level){
+                y.level =
+                        x.level;
+                y.incoming.clear();
+                y.incoming.add(x);
+
+                if(forwardSearch(y).equals(STATE.CYCLE)){
+                    return STATE.CYCLE;
+                }
+            }
+        }
+
+        return STATE.NORMAL;
     }
 }
 $end: cycle_detector_class $
@@ -405,7 +497,7 @@ $macro: single_add(macro_name, param_name) $
 
         this.list_$param_name.add(macro);
         this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
+        Macro.cycleDetector.addEdge(this, macro);
     }
 $end: single_add $
 

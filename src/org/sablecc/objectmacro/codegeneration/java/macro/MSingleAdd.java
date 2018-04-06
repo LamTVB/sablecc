@@ -68,7 +68,7 @@ public class MSingleAdd {
     sb.append(System.getProperty("line.separator"));
     sb.append("        this.children.add(macro);");
     sb.append(System.getProperty("line.separator"));
-    sb.append("        Macro.cycleDetector.detectCycle(this, macro);");
+    sb.append("        Macro.cycleDetector.addEdge(this, macro);");
     sb.append(System.getProperty("line.separator"));
     sb.append("    }");
     sb.append(System.getProperty("line.separator"));
