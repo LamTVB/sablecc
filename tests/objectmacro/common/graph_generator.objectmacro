@@ -10,11 +10,22 @@ Macro main
 
 public class {class_name}{{
 
+    public static long exec_time = 0;
+
     public static void main(
                 String[] args){{
 {Indent: "\t\t"}
 {macro_declarations}
+long start = System.nanoTime();
+try{
+{Indent: "\t"}
 {macro_links}
+{End}
+}
+catch(ObjectMacroException e){
+    long end = System.nanoTime();
+    {class_name}.exec_time = end - start;
+}
 {builders}
 {End}
     }

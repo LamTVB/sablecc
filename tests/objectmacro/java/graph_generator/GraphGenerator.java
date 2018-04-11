@@ -1,5 +1,6 @@
 package graph_generator;
 
+import back.cycle.macro.ObjectMacroException;
 import graph_generator.macro.*;
 import back.cycle.macro.MA;
 import back.cycle.macro.MB;
@@ -7,13 +8,15 @@ import back.cycle.macro.MC;
 
 import javax.tools.*;
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
 
 public class GraphGenerator {
 
-    public static void exponantialCase(
+    public static long exponantialCase(
             String package_name,
             int nbDepth){
 
@@ -61,8 +64,10 @@ public class GraphGenerator {
         Iterable<? extends JavaFileObject> files = Arrays.asList(file);
 
         if(compile(files)){
-            run(package_name, class_name);
+            return run(package_name, class_name);
         }
+
+        return 0;
     }
 
     /** java File Object represents an in-memory java source file <br>
@@ -135,13 +140,14 @@ public class GraphGenerator {
         return result;
     }
 
-    private static void run(
+    private static long run(
             String package_name,
             String class_name){
 
         // Create a File object on the root of the directory
         // containing the class file
         File file = new File("classes/");
+        Class thisClass = null;
 
         try
         {
@@ -152,19 +158,30 @@ public class GraphGenerator {
             // Create a new class loader with the directory
             ClassLoader loader = new URLClassLoader(urls);
 
-            // Load in the class; Class.childclass should be located in
-            // the directory file:/class/demo/
-            Class thisClass = loader.loadClass(package_name.concat(".").concat(class_name));
+            thisClass = loader.loadClass(package_name.concat(".").concat(class_name));
 
             Method method = thisClass.getMethod("main", String[].class);
 
-            // run the testAdd() method on the instance:
             method.invoke(null, (Object) null);
         }
-        catch (Exception e)
+        catch(InvocationTargetException e){
+            if(thisClass != null){
+                try{
+                    Field field = thisClass.getDeclaredField("exec_time");
+                    return field.getLong(null);
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        }
+        catch (MalformedURLException | ClassNotFoundException | NoSuchMethodException
+                 | IllegalAccessException e)
         {
             e.printStackTrace();
         }
+
+        return 0;
     }
 
 }
