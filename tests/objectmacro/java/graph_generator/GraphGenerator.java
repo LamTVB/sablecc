@@ -45,15 +45,17 @@ public class GraphGenerator {
         }
 
         for(int i = 0; i < nbDepth / 3; i++) {
-            MAddMacro addMacro = new MAddMacro("A" + i, "B" + i, "X");
-            main.addMacroLinks(addMacro);
-
-            addMacro = new MAddMacro("B" + i, "C" + i, "Y");
-            main.addMacroLinks(addMacro);
+            MAddMacro addMacro;
             if(i + 1 < nbDepth / 3){
                 addMacro = new MAddMacro("C" + i, "A" + (i + 1), "Y");
                 main.addMacroLinks(addMacro);
             }
+
+            addMacro = new MAddMacro("B" + i, "C" + i, "Y");
+            main.addMacroLinks(addMacro);
+
+            addMacro = new MAddMacro("A" + i, "B" + i, "X");
+            main.addMacroLinks(addMacro);
         }
 
         main.addMacroLinks(new MAddMacro(macro_names.get(macro_names.size() - 1), macro_names.get(0), "Y"));
