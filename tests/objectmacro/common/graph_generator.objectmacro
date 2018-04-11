@@ -1,0 +1,56 @@
+Macro main
+    Param
+        class_name : String;
+        package : package_declaration;
+        macro_declarations : new_macro, separator="\n", before_first="\n";
+        macro_links : add_macro, separator="\n", before_first="\n";
+        builders : builder;
+{Body}
+{package}
+
+public class {class_name}{{
+
+    public static void main(
+                String[] args){{
+{Indent: "\t\t"}
+{macro_declarations}
+{macro_links}
+{builders}
+{End}
+    }
+}
+{End}
+
+Macro builder
+    Param
+        macro_name : String;
+{Body}
+m{macro_name}.build();
+{End}
+
+
+Macro package_declaration
+    Param
+        name : String;
+{Body}
+package {name};
+
+import {name}.macro.*;
+{End}
+
+Macro new_macro
+    Param
+        macro_name : String;
+        param_name : String;
+{Body}
+{macro_name} m{param_name} = new {macro_name}();
+{End}
+
+Macro add_macro
+    Param
+        receiver : String;
+        added : String;
+        param_name : String;
+{Body}
+m{receiver}.add{param_name}(m{added});
+{End}
