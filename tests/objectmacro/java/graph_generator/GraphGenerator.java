@@ -16,7 +16,7 @@ import java.util.*;
 
 public class GraphGenerator {
 
-    public static long exponantialCase(
+    public static long exponentialCase(
             String package_name,
             int nbDepth){
 

@@ -2,28 +2,132 @@ package back.cycle;
 
 import graph_generator.GraphGenerator;
 
-import java.lang.reflect.InvocationTargetException;
-
-
 public class Performance {
 
-    public static long endTime;
+    public static void main(
+            String[] args){
 
-    public static void main(String[] args){
-        long max_long = 0;
+        long total_time = 0;
 
+        //Warm up
         for(int i = 0; i < 100; i++){
-            GraphGenerator.exponantialCase(Performance.class.getPackage().getName(), 2000);
+            GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 2000);
         }
+
+        System.out.println("=========== EXPONENTIAL for 10 nodes ==============");
 
         for(int i = 0; i < 10; i++){
-            long endTime = GraphGenerator.exponantialCase(Performance.class.getPackage().getName(), 3000);
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 10);
             System.out.println("End time taken : " + endTime);
-            max_long += endTime;
+            total_time += endTime;
         }
 
-        System.out.println("Total time taken : " + max_long);
-        System.out.println("Average total time taken : " + max_long / 10);
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 20 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 20);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 50 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 50);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 100 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 100);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 200 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 200);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 300 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 300);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 500 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 500);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 1000 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 1000);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
+
+        System.out.println("=========== EXPONENTIAL for 2000 nodes ==============");
+
+        total_time = 0;
+
+        for(int i = 0; i < 10; i++){
+            long endTime = GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 1000);
+            System.out.println("End time taken : " + endTime);
+            total_time += endTime;
+        }
+
+        System.out.println("Total time taken : " + total_time);
+        System.out.println("Average total time taken : " + total_time / 10);
     }
 
 }
