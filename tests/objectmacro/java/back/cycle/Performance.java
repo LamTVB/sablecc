@@ -8,10 +8,10 @@ public class Performance {
             String[] args){
 
         long total_time = 0;
-
-        //Warm up
-        for(int i = 0; i < 100; i++){
-            GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 2000);
+//        System.out.println(GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 10));
+//        Warm up
+        for(int i = 0; i < 50; i++){
+            GraphGenerator.exponentialCase(Performance.class.getPackage().getName(), 200);
         }
 
         System.out.println("=========== EXPONENTIAL for 10 nodes ==============");

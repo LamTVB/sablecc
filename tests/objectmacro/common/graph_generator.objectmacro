@@ -3,7 +3,7 @@ Macro main
         class_name : String;
         package : package_declaration;
         macro_declarations : new_macro, separator="\n", before_first="\n";
-        macro_links : add_macro, separator="\n", before_first="\n";
+        macro_links : add_macro(class_name), separator="\n", before_first="\n";
         builders : builder;
 {Body}
 {package}
@@ -18,28 +18,11 @@ public class {class_name}{{
 {Indent: "\t"}
 public static void main(
             String[] args){{
+
 {Indent: "\t"}
 long start = System.nanoTime();
-
-try{
-{Indent: "\t"}
-add_macros();
-{End}
-}
-catch(ObjectMacroException e){{
-    long end = System.nanoTime();
-    {class_name}.exec_time = end - start;
-}
-{builders}
-{End}
-}
-{End}
-
-
-{Indent: "\t"}
-public static void add_macros(){{
-{Indent: "\t"}
 {macro_links}
+{builders}
 {End}
 }
 {End}
@@ -76,6 +59,12 @@ Macro add_macro
         receiver : String;
         added : String;
         param_name : String;
+    Internal
+        class_name : String;
 {Body}
-m{receiver}.add{param_name}(m{added});
+if(!m{receiver}.add{param_name}(m{added})){
+    long end = System.nanoTime();
+    {class_name}.exec_time = end - start;
+    return;
+}
 {End}

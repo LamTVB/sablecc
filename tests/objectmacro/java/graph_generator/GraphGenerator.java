@@ -166,20 +166,14 @@ public class GraphGenerator {
             Method method = thisClass.getMethod("main", String[].class);
 
             method.invoke(null, (Object) null);
+            Field field = thisClass.getDeclaredField("exec_time");
+            return field.getLong(null);
         }
         catch(InvocationTargetException e){
-            if(thisClass != null){
-                try{
-                    Field field = thisClass.getDeclaredField("exec_time");
-                    return field.getLong(null);
-                }
-                catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
+
         }
         catch (MalformedURLException | ClassNotFoundException | NoSuchMethodException
-                 | IllegalAccessException e)
+                 | NoSuchFieldException | IllegalAccessException e)
         {
             e.printStackTrace();
         }
