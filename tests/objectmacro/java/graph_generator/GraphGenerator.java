@@ -120,12 +120,13 @@ public class GraphGenerator {
         DiagnosticListener listener = new DiagnosticListener<JavaFileObject>() {
 
             @Override public void report(Diagnostic<? extends JavaFileObject> diagnostic) {
-                System.out.println("Line Number->" + diagnostic.getLineNumber());
-                System.out.println("code->" + diagnostic.getCode());
-                System.out.println("Message->"
-                        + diagnostic.getMessage(Locale.ENGLISH));
-                System.out.println("Source->" + diagnostic.getSource());
-                System.out.println(" ");
+                System.out.println(diagnostic.getMessage(Locale.FRANCE));
+//                System.out.println("Line Number->" + diagnostic.getLineNumber());
+//                System.out.println("code->" + diagnostic.getCode());
+//                System.out.println("Message->"
+//                        + diagnostic.getMessage(Locale.ENGLISH));
+//                System.out.println("Source->" + diagnostic.getSource());
+//                System.out.println(" ");
             }
         };
 

@@ -11,24 +11,38 @@ Macro main
 public class {class_name}{{
 
     public static long exec_time = 0;
-
-    public static void main(
-                String[] args){{
-{Indent: "\t\t"}
+{Indent: "\t"}
 {macro_declarations}
+{End}
+
+{Indent: "\t"}
+public static void main(
+            String[] args){{
+{Indent: "\t"}
 long start = System.nanoTime();
+
 try{
 {Indent: "\t"}
-{macro_links}
+add_macros();
 {End}
 }
-catch(ObjectMacroException e){
+catch(ObjectMacroException e){{
     long end = System.nanoTime();
     {class_name}.exec_time = end - start;
 }
 {builders}
 {End}
-    }
+}
+{End}
+
+
+{Indent: "\t"}
+public static void add_macros(){{
+{Indent: "\t"}
+{macro_links}
+{End}
+}
+{End}
 }
 {End}
 
@@ -54,7 +68,7 @@ Macro new_macro
         macro_name : String;
         param_name : String;
 {Body}
-{macro_name} m{param_name} = new {macro_name}();
+private static {macro_name} m{param_name} = new {macro_name}();
 {End}
 
 Macro add_macro
