@@ -112,7 +112,7 @@ public class CycleDetector {
         return nodeInfo;
     }
 
-    public void addEdge(
+    public boolean addEdge(
             Macro v,
             Macro w){
 
@@ -140,11 +140,13 @@ public class CycleDetector {
                 step3 = true;
             }
             else if(state.equals(STATE.CYCLE)){
-                throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
+                // throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
+                return false;
             }
 
             if(step3 && forwardSearch(wInfo).equals(STATE.CYCLE)){
-                throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
+                // throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
+                return false;
             }
         }
 
@@ -155,6 +157,8 @@ public class CycleDetector {
 
         this.nbArcs++;
         this.delta = Math.min((int) Math.pow(this.nbArcs, 1/2), (int)Math.pow(this.nbVertices, 2/3));
+
+        return true;
     }
 
     private STATE backwardSearch(
@@ -489,7 +493,7 @@ $end$
 $comment: ========= single_add =========== $
 
 $macro: single_add(macro_name, param_name) $
-    public void add$param_name(M$macro_name macro){
+    public boolean add$param_name(M$macro_name macro){
         if(macro == null){
             throw ObjectMacroException.parameterNull("$param_name");
         }
@@ -497,7 +501,7 @@ $macro: single_add(macro_name, param_name) $
 
         this.list_$param_name.add(macro);
         this.children.add(macro);
-        Macro.cycleDetector.addEdge(this, macro);
+        return Macro.cycleDetector.addEdge(this, macro);
     }
 $end: single_add $
 
