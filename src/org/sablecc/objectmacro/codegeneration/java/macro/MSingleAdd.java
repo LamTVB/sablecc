@@ -43,7 +43,7 @@ public class MSingleAdd {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("    public void add");
+    sb.append("    public boolean add");
     sb.append(rParamName());
     sb.append("(M");
     sb.append(rMacroName());
@@ -68,7 +68,7 @@ public class MSingleAdd {
     sb.append(System.getProperty("line.separator"));
     sb.append("        this.children.add(macro);");
     sb.append(System.getProperty("line.separator"));
-    sb.append("        Macro.cycleDetector.detectCycle(this, macro);");
+    sb.append("        return Macro.cycleDetector.detectCycle(this, macro);");
     sb.append(System.getProperty("line.separator"));
     sb.append("    }");
     sb.append(System.getProperty("line.separator"));

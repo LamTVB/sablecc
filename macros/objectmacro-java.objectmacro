@@ -87,30 +87,33 @@ public class CycleDetector {
 
     private Set<Macro> macros;
 
-    void detectCycle(
+    boolean detectCycle(
             Macro receiver,
             Macro added){
 
         this.macros = new LinkedHashSet<>();
         this.receiver = receiver;
-        detectCycle(added);
+        return detectCycle(added);
     }
 
-    private void detectCycle(
+    private boolean detectCycle(
             Macro macro){
 
-        if(this.macros.contains(macro)){
-            return;
-        }
-
-        this.macros.add(macro);
-
-        for(Macro child : macro.getChildren()){
-            if(child == this.receiver){
-                throw ObjectMacroException.cyclicReference(child.getClass().getSimpleName());
+        if(!this.macros.contains(macro)){
+            if(macro == this.receiver){
+                return false;
             }
-            detectCycle(child);
+
+            this.macros.add(macro);
+
+            for(Macro child : macro.getChildren()){
+                if(!detectCycle(child)){
+                    return false;
+                }
+            }
         }
+
+        return true;
     }
 }
 $end: cycle_detector_class $
@@ -397,7 +400,7 @@ $end$
 $comment: ========= single_add =========== $
 
 $macro: single_add(macro_name, param_name) $
-    public void add$param_name(M$macro_name macro){
+    public boolean add$param_name(M$macro_name macro){
         if(macro == null){
             throw ObjectMacroException.parameterNull("$param_name");
         }
@@ -405,7 +408,7 @@ $macro: single_add(macro_name, param_name) $
 
         this.list_$param_name.add(macro);
         this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
+        return Macro.cycleDetector.detectCycle(this, macro);
     }
 $end: single_add $
 
