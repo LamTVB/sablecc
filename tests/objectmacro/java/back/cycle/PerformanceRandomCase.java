@@ -28,7 +28,7 @@ public class PerformanceRandomCase {
 
         String package_name = PerformanceRandomCase.class.getPackage().getName();
         String class_name = "RandomCase";
-        String content = GraphGenerator.randomCase(package_name, class_name, 10);
+        String content = GraphGenerator.randomCase(package_name, class_name, 10, true);
         int nbClasses = 0;
 
         compileAndRun(package_name, class_name, content, true);
@@ -37,9 +37,9 @@ public class PerformanceRandomCase {
         writer.write("=========== RANDOM for 10 nodes ==============\n");
 
         long total_time = 0;
-
+        System.out.println(GraphGenerator.randomCase(package_name, class_name + nbClasses, 10, true));
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 10);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 10, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -58,9 +58,9 @@ public class PerformanceRandomCase {
 
         System.out.println("=========== RANDOM for 20 nodes ==============");
         writer.write("=========== RANDOM for 20 nodes ==============\n");
-
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 20, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 20);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 20, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -77,8 +77,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 50 nodes ==============");
         writer.write("=========== RANDOM for 50 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 50, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 50);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 50, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -94,8 +95,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 100 nodes ==============");
         writer.write("=========== RANDOM for 100 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 100, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 100);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 100, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -111,8 +113,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 200 nodes ==============");
         writer.write("=========== RANDOM for 200 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 200, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 200);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 200, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -128,8 +131,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 300 nodes ==============");
         writer.write("=========== RANDOM for 300 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 300, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 300);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 300, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -145,8 +149,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 500 nodes ==============");
         writer.write("=========== RANDOM for 500 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 500, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 500);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 500, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -162,8 +167,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 1000 nodes ==============");
         writer.write("=========== RANDOM for 1000 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 1000, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 1000);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 1000, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -179,8 +185,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 2000 nodes ==============");
         writer.write("=========== RANDOM for 2000 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 2000, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 2000);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 2000, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -196,8 +203,9 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 4000 nodes ==============");
         writer.write("=========== RANDOM for 4000 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 4000, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 4000);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 4000, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         nbClasses += 30;
@@ -213,14 +221,15 @@ public class PerformanceRandomCase {
         System.out.println("=========== RANDOM for 6500 nodes ==============");
         writer.write("=========== RANDOM for 6500 nodes ==============\n");
 
+        GraphGenerator.randomCase(package_name, class_name + nbClasses, 6500, true);
         for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 6500);
+            content = GraphGenerator.randomCase(package_name, class_name + i, 6500, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
 
         try {
             writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
+            writer.write("Average total time taken : " + total_time / 30 + " ns\n\n\n\n");
         }
         catch (IOException e) {
             e.printStackTrace();

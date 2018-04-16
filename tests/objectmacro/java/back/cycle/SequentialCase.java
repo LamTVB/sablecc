@@ -219,7 +219,7 @@ public class SequentialCase {
 
         try {
             writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
+            writer.write("Average total time taken : " + total_time / 30 + " ns\n\n\n\n");
         }
         catch (IOException e) {
             e.printStackTrace();
