@@ -3,14 +3,18 @@ Macro main
         class_name : String;
         package : package_declaration;
         macro_declarations : new_macro, separator="\n", before_first="\n";
-        macro_links : add_macro(class_name), separator="\n", before_first="\n";
-        builders : builder;
+        link_methods : link_method, separator="\n\n", before_first="\n";
+        calls_link_function : call_link_function, separator="\n";
+        init_macros : init_macro, separator="\n", before_first="\n";
 {Body}
 {package}
 
 public class {class_name}{{
 
     public static long exec_time = 0;
+    public static long start = 0;
+    public static long end = 0;
+
 {Indent: "\t"}
 {macro_declarations}
 {End}
@@ -20,22 +24,17 @@ public static void main(
             String[] args){{
 
 {Indent: "\t"}
-long start = System.nanoTime();
-{macro_links}
-{builders}
+{init_macros}
+start = System.nanoTime();
+{calls_link_function}
 {End}
 }
 {End}
+{Indent: "\t"}
+{link_methods}
+{End}
 }
 {End}
-
-Macro builder
-    Param
-        macro_name : String;
-{Body}
-m{macro_name}.build();
-{End}
-
 
 Macro package_declaration
     Param
@@ -48,23 +47,45 @@ import {name}.macro.*;
 
 Macro new_macro
     Param
-        macro_name : String;
         param_name : String;
 {Body}
-private static {macro_name} m{param_name} = new {macro_name}();
+private static MA m{param_name} = new MA();
+{End}
+
+Macro init_macro
+    Param
+        param_name : String;
+{Body}
+m{param_name} = new MA();
 {End}
 
 Macro add_macro
     Param
         receiver : String;
         added : String;
-        param_name : String;
-    Internal
-        class_name : String;
 {Body}
-if(!m{receiver}.add{param_name}(m{added})){
-    long end = System.nanoTime();
-    {class_name}.exec_time = end - start;
-    return;
+if(m{receiver}.addY(m{added})){
+    end = System.nanoTime();
+    exec_time = end - start;
+    System.out.println("Cycle detected on m{receiver}.add(m{added})");
 }
+{End}
+
+Macro link_method
+    Param
+        index : String;
+        macro_links : add_macro, separator="\nelse ";
+{Body}
+private static void addLinks{index}(){
+{Indent: "\t"}
+{macro_links}
+{End}
+}
+{End}
+
+Macro call_link_function
+    Param
+        index : String;
+{Body}
+addLinks{index}();
 {End}
