@@ -141,12 +141,12 @@ public class CycleDetector {
             }
             else if(state.equals(STATE.CYCLE)){
                 // throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
-                return false;
+                return true;
             }
 
             if(step3 && forwardSearch(wInfo).equals(STATE.CYCLE)){
                 // throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());
-                return false;
+                return true;
             }
         }
 
@@ -158,7 +158,7 @@ public class CycleDetector {
         this.nbArcs++;
         this.delta = Math.min((int) Math.pow(this.nbArcs, 1/2), (int)Math.pow(this.nbVertices, 2/3));
 
-        return true;
+        return false;
     }
 
     private STATE backwardSearch(

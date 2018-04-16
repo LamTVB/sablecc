@@ -146,7 +146,7 @@ public class MCycleDetectorClass {
     sb.append(System.getProperty("line.separator"));
     sb.append("                // throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());");
     sb.append(System.getProperty("line.separator"));
-    sb.append("                return false;");
+    sb.append("                return true;");
     sb.append(System.getProperty("line.separator"));
     sb.append("            }");
     sb.append(System.getProperty("line.separator"));
@@ -155,7 +155,7 @@ public class MCycleDetectorClass {
     sb.append(System.getProperty("line.separator"));
     sb.append("                // throw ObjectMacroException.cyclicReference(v.getClass().getSimpleName());");
     sb.append(System.getProperty("line.separator"));
-    sb.append("                return false;");
+    sb.append("                return true;");
     sb.append(System.getProperty("line.separator"));
     sb.append("            }");
     sb.append(System.getProperty("line.separator"));
@@ -176,7 +176,7 @@ public class MCycleDetectorClass {
     sb.append("        this.delta = Math.min((int) Math.pow(this.nbArcs, 1/2), (int)Math.pow(this.nbVertices, 2/3));");
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
-    sb.append("        return true;");
+    sb.append("        return false;");
     sb.append(System.getProperty("line.separator"));
     sb.append("    }");
     sb.append(System.getProperty("line.separator"));
