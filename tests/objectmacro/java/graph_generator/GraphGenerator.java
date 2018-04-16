@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class GraphGenerator {
 
+    private static List<Integer> macro_names = new LinkedList<>();
+
     public static String sequentialCase(
             String package_name,
             String class_name,
@@ -54,7 +56,8 @@ public class GraphGenerator {
     public static String randomCase(
             String package_name,
             String class_name,
-            int nbNodes){
+            int nbNodes,
+            boolean newGeneration){
 
         MMain main = new MMain(class_name);
 
@@ -73,6 +76,12 @@ public class GraphGenerator {
         int nbAdd = 0;
         int nbMethod = 1;
         MAddMacro addMacro;
+
+        if(newGeneration){
+            macro_names = new LinkedList<>();
+            macro_names.add(0);
+        }
+
         for(int i = 1; i <= nbNodes; i++) {
             if(nbAdd >= 250){
                 nbMethod++;
@@ -81,8 +90,14 @@ public class GraphGenerator {
                 main.addCallsLinkFunction(new MCallLinkFunction("" + nbMethod));
                 nbAdd = 0;
             }
-
-            int randomNum = ThreadLocalRandom.current().nextInt(1, nbNodes);
+            int randomNum = 0;
+            if(newGeneration){
+                randomNum = ThreadLocalRandom.current().nextInt(1, nbNodes);
+                macro_names.add(randomNum);
+            }
+            else{
+                randomNum = macro_names.get(i);
+            }
 
             if(i != randomNum){
                 addMacro = new MAddMacro("" + i, "" + randomNum);

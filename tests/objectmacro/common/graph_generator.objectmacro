@@ -88,4 +88,7 @@ Macro call_link_function
         index : String;
 {Body}
 addLinks{index}();
+if(exec_time != 0){
+    return;
+}
 {End}
