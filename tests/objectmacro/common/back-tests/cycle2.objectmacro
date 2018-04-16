@@ -1,8 +1,10 @@
 Macro a
     Param
         x : b;
+        y : a;
 {Body}
 {x}
+{y}
 {End}
 
 Macro b

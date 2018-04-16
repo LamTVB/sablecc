@@ -101,19 +101,19 @@ public class CycleDetector {
 
         if(!this.macros.contains(macro)){
             if(macro == this.receiver){
-                return false;
+                return true;
             }
 
             this.macros.add(macro);
 
             for(Macro child : macro.getChildren()){
-                if(!detectCycle(child)){
-                    return false;
+                if(detectCycle(child)){
+                    return true;
                 }
             }
         }
 
-        return true;
+        return false;
     }
 }
 $end: cycle_detector_class $

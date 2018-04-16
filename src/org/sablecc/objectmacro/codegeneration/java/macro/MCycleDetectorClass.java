@@ -75,7 +75,7 @@ public class MCycleDetectorClass {
     sb.append(System.getProperty("line.separator"));
     sb.append("            if(macro == this.receiver){");
     sb.append(System.getProperty("line.separator"));
-    sb.append("                return false;");
+    sb.append("                return true;");
     sb.append(System.getProperty("line.separator"));
     sb.append("            }");
     sb.append(System.getProperty("line.separator"));
@@ -85,9 +85,9 @@ public class MCycleDetectorClass {
     sb.append(System.getProperty("line.separator"));
     sb.append("            for(Macro child : macro.getChildren()){");
     sb.append(System.getProperty("line.separator"));
-    sb.append("                if(!detectCycle(child)){");
+    sb.append("                if(detectCycle(child)){");
     sb.append(System.getProperty("line.separator"));
-    sb.append("                    return false;");
+    sb.append("                    return true;");
     sb.append(System.getProperty("line.separator"));
     sb.append("                }");
     sb.append(System.getProperty("line.separator"));
@@ -96,7 +96,7 @@ public class MCycleDetectorClass {
     sb.append("        }");
     sb.append(System.getProperty("line.separator"));
     sb.append(System.getProperty("line.separator"));
-    sb.append("        return true;");
+    sb.append("        return false;");
     sb.append(System.getProperty("line.separator"));
     sb.append("    }");
     sb.append(System.getProperty("line.separator"));
