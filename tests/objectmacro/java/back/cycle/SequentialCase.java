@@ -47,6 +47,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 500 nodes ==============");
         writer.write("=========== SEQUENTIAL for 500 nodes ==============\n");
 
@@ -59,6 +61,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 750 nodes ==============");
         writer.write("=========== SEQUENTIAL for 750 nodes ==============\n");
@@ -73,6 +77,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 1000 nodes ==============");
         writer.write("=========== SEQUENTIAL for 1000 nodes ==============\n");
 
@@ -85,6 +91,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 1250 nodes ==============");
         writer.write("=========== SEQUENTIAL for 1250 nodes ==============\n");
@@ -99,6 +107,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 1500 nodes ==============");
         writer.write("=========== SEQUENTIAL for 1500 nodes ==============\n");
 
@@ -111,6 +121,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 1750 nodes ==============");
         writer.write("=========== SEQUENTIAL for 1750 nodes ==============\n");
@@ -125,6 +137,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 2000 nodes ==============");
         writer.write("=========== SEQUENTIAL for 2000 nodes ==============\n");
 
@@ -137,6 +151,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 2250 nodes ==============");
         writer.write("=========== SEQUENTIAL for 2250 nodes ==============\n");
@@ -151,6 +167,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 2500 nodes ==============");
         writer.write("=========== SEQUENTIAL for 2500 nodes ==============\n");
 
@@ -163,6 +181,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 2750 nodes ==============");
         writer.write("=========== SEQUENTIAL for 2750 nodes ==============\n");
@@ -177,6 +197,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 3000 nodes ==============");
         writer.write("=========== SEQUENTIAL for 3000 nodes ==============\n");
 
@@ -189,6 +211,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 3250 nodes ==============");
         writer.write("=========== SEQUENTIAL for 3250 nodes ==============\n");
@@ -203,6 +227,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 3500 nodes ==============");
         writer.write("=========== SEQUENTIAL for 3500 nodes ==============\n");
 
@@ -215,6 +241,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 3750 nodes ==============");
         writer.write("=========== SEQUENTIAL for 3750 nodes ==============\n");
@@ -229,6 +257,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 4000 nodes ==============");
         writer.write("=========== SEQUENTIAL for 4000 nodes ==============\n");
 
@@ -241,6 +271,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 4250 nodes ==============");
         writer.write("=========== SEQUENTIAL for 4250 nodes ==============\n");
@@ -255,6 +287,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 4500 nodes ==============");
         writer.write("=========== SEQUENTIAL for 4500 nodes ==============\n");
 
@@ -268,6 +302,8 @@ public class SequentialCase {
         System.out.println("Total time taken : " + total_time + " ns\n");
         System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
 
+        total_time = 0;
+
         System.out.println("=========== SEQUENTIAL for 4750 nodes ==============");
         writer.write("=========== SEQUENTIAL for 4750 nodes ==============\n");
 
@@ -280,6 +316,8 @@ public class SequentialCase {
         writer.write( total_time / 30 + "\n");
         System.out.println("Total time taken : " + total_time + " ns");
         System.out.println("Average total time taken : " + total_time / 30 + " ns");
+
+        total_time = 0;
 
         System.out.println("=========== SEQUENTIAL for 5000 nodes ==============");
         writer.write("=========== SEQUENTIAL for 5000 nodes ==============\n");
