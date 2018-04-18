@@ -14,9 +14,11 @@ public class PerformanceRandomCase {
 
     private static BufferedWriter writer;
 
+    private static Integer class_num = 0;
+
     static {
         try {
-            writer = new BufferedWriter(new FileWriter("Result.txt", true));
+            writer = new BufferedWriter(new FileWriter("ResultRandomNaive.txt", true));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -28,212 +30,36 @@ public class PerformanceRandomCase {
 
         String package_name = PerformanceRandomCase.class.getPackage().getName();
         String class_name = "RandomCase";
-        String content = GraphGenerator.randomCase(package_name, class_name, 10, true);
-        int nbClasses = 0;
-
+        String content = GraphGenerator.sequentialCase(package_name, class_name, 1000);
+        writer.write("RANDOM :\n");
         compileAndRun(package_name, class_name, content, true);
 
-        System.out.println("=========== RANDOM for 10 nodes ==============");
-        writer.write("=========== RANDOM for 10 nodes ==============\n");
+        runTest(250, package_name, class_name);
+        runTest(500, package_name, class_name);
+        runTest(750, package_name, class_name);
 
-        long total_time = 0;
-        System.out.println(GraphGenerator.randomCase(package_name, class_name + nbClasses, 10, true));
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 10, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
+        runTest(1000, package_name, class_name);
+        runTest(1250, package_name, class_name);
+        runTest(1500, package_name, class_name);
+        runTest(1750, package_name, class_name);
+        runTest(2000, package_name, class_name);
 
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        runTest(2250, package_name, class_name);
+        runTest(2500, package_name, class_name);
+        runTest(2750, package_name, class_name);
+        runTest(3000, package_name, class_name);
 
-        System.out.println("Total time taken : " + total_time + "ns");
-        System.out.println("Average total time taken : " + total_time / 30 + "ns");
+        runTest(3250, package_name, class_name);
+        runTest(3500, package_name, class_name);
+        runTest(3750, package_name, class_name);
+        runTest(4000, package_name, class_name);
 
-
-        System.out.println("=========== RANDOM for 20 nodes ==============");
-        writer.write("=========== RANDOM for 20 nodes ==============\n");
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 20, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 20, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        System.out.println("=========== RANDOM for 50 nodes ==============");
-        writer.write("=========== RANDOM for 50 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 50, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 50, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 100 nodes ==============");
-        writer.write("=========== RANDOM for 100 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 100, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 100, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 200 nodes ==============");
-        writer.write("=========== RANDOM for 200 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 200, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 200, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 300 nodes ==============");
-        writer.write("=========== RANDOM for 300 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 300, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 300, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 500 nodes ==============");
-        writer.write("=========== RANDOM for 500 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 500, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 500, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 1000 nodes ==============");
-        writer.write("=========== RANDOM for 1000 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 1000, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 1000, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 2000 nodes ==============");
-        writer.write("=========== RANDOM for 2000 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 2000, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 2000, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 4000 nodes ==============");
-        writer.write("=========== RANDOM for 4000 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 4000, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 4000, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("=========== RANDOM for 6500 nodes ==============");
-        writer.write("=========== RANDOM for 6500 nodes ==============\n");
-
-        GraphGenerator.randomCase(package_name, class_name + nbClasses, 6500, true);
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.randomCase(package_name, class_name + i, 6500, false);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-
-        try {
-            writer.write("Total time taken : " + total_time + " ns\n");
-            writer.write("Average total time taken : " + total_time / 30 + " ns\n\n\n\n");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        runTest(4250, package_name, class_name);
+        runTest(4500, package_name, class_name);
+        runTest(4750, package_name, class_name);
+        runTest(5000, package_name, class_name);
+        runTest(6000, package_name, class_name);
+        writer.write("\n");
         writer.close();
 
         System.out.println();
@@ -263,5 +89,24 @@ public class PerformanceRandomCase {
         }
 
         return 0;
+    }
+
+    private static void runTest(
+            int nb_nodes,
+            String package_name,
+            String class_name) throws IOException{
+
+        long total_time = 0;
+        System.out.println("=========== RANDOM for " + nb_nodes + " nodes ==============");
+        GraphGenerator.randomCase(package_name, class_name, nb_nodes, true);
+        for(int i = class_num; i < class_num + 30; i++){
+            String content = GraphGenerator.randomCase(package_name, class_name + i, nb_nodes, false);
+            total_time += compileAndRun(package_name, class_name + i, content, false);
+        }
+        class_num += 30;
+
+        writer.write( total_time / 30 + "\n");
+        System.out.println("Total time taken : " + total_time + " ns");
+        System.out.println("Average total time taken : " + total_time / 30 + " ns");
     }
 }

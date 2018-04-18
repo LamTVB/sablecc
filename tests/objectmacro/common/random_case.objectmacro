@@ -67,7 +67,6 @@ Macro add_macro
 if(m{receiver}.addY(m{added})){
     end = System.nanoTime();
     exec_time = end - start;
-    System.out.println("Cycle detected on m{receiver}.add(m{added})");
 }
 {End}
 
