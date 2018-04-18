@@ -15,7 +15,7 @@ public class SequentialCase {
 
     static {
         try {
-            writer = new BufferedWriter(new FileWriter("ResultSequentialDelta.txt", true));
+            writer = new BufferedWriter(new FileWriter("ResultSequentialNaive.txt", true));
         }
         catch (IOException e) {
             e.printStackTrace();
