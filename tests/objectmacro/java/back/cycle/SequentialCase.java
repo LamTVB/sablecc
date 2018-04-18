@@ -71,7 +71,6 @@ public class SequentialCase {
             String mainContent,
             boolean warm_up){
 
-        System.out.println(class_name);
         JavaFileObject mainFile = DynamicJavaExecutor.getJavaFileObject(package_name, class_name, mainContent);
         Iterable<? extends JavaFileObject> files = Arrays.asList(mainFile);
 
