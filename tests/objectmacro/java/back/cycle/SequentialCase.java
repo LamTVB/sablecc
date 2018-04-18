@@ -13,6 +13,8 @@ public class SequentialCase {
 
     private static BufferedWriter writer;
 
+    private static Integer class_num = 0;
+
     static {
         try {
             writer = new BufferedWriter(new FileWriter("ResultSequentialDelta.txt", true));
@@ -27,35 +29,35 @@ public class SequentialCase {
 
         String package_name = SequentialCase.class.getPackage().getName();
         String class_name = "LineCase";
-        String content = GraphGenerator.sequentialCase(package_name, class_name, 100);
-        int class_num = 0;
+        String content = GraphGenerator.sequentialCase(package_name, class_name, 1000);
 
         compileAndRun(package_name, class_name, content, true);
 
-        runTest(250, package_name, class_name, class_num);
-        runTest(500, package_name, class_name, class_num);
-        runTest(750, package_name, class_name, class_num);
+        runTest(250, package_name, class_name);
+        runTest(500, package_name, class_name);
+        runTest(750, package_name, class_name);
 
-        runTest(1000, package_name, class_name, class_num);
-        runTest(1250, package_name, class_name, class_num);
-        runTest(1500, package_name, class_name, class_num);
-        runTest(1750, package_name, class_name, class_num);
-        runTest(2000, package_name, class_name, class_num);
+        runTest(1000, package_name, class_name);
+        runTest(1250, package_name, class_name);
+        runTest(1500, package_name, class_name);
+        runTest(1750, package_name, class_name);
+        runTest(2000, package_name, class_name);
 
-        runTest(2250, package_name, class_name, class_num);
-        runTest(2500, package_name, class_name, class_num);
-        runTest(2750, package_name, class_name, class_num);
-        runTest(3000, package_name, class_name, class_num);
+        runTest(2250, package_name, class_name);
+        runTest(2500, package_name, class_name);
+        runTest(2750, package_name, class_name);
+        runTest(3000, package_name, class_name);
 
-        runTest(3250, package_name, class_name, class_num);
-        runTest(3500, package_name, class_name, class_num);
-        runTest(3750, package_name, class_name, class_num);
-        runTest(4000, package_name, class_name, class_num);
+        runTest(3250, package_name, class_name);
+        runTest(3500, package_name, class_name);
+        runTest(3750, package_name, class_name);
+        runTest(4000, package_name, class_name);
 
-        runTest(4250, package_name, class_name, class_num);
-        runTest(4500, package_name, class_name, class_num);
-        runTest(4750, package_name, class_name, class_num);
-        runTest(5000, package_name, class_name, class_num);
+        runTest(4250, package_name, class_name);
+        runTest(4500, package_name, class_name);
+        runTest(4750, package_name, class_name);
+        runTest(5000, package_name, class_name);
+        runTest(6000, package_name, class_name);
         writer.write("\n");
         writer.close();
 
@@ -69,6 +71,7 @@ public class SequentialCase {
             String mainContent,
             boolean warm_up){
 
+        System.out.println(class_name);
         JavaFileObject mainFile = DynamicJavaExecutor.getJavaFileObject(package_name, class_name, mainContent);
         Iterable<? extends JavaFileObject> files = Arrays.asList(mainFile);
 
@@ -91,14 +94,12 @@ public class SequentialCase {
     private static void runTest(
             int nb_nodes,
             String package_name,
-            String class_name,
-            int class_num) throws IOException{
+            String class_name) throws IOException{
 
         long total_time = 0;
-        String content;
         System.out.println("=========== SEQUENTIAL for " + nb_nodes + " nodes ==============");
         for(int i = class_num; i < class_num + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, nb_nodes);
+            String content = GraphGenerator.sequentialCase(package_name, class_name + i, nb_nodes);
             total_time += compileAndRun(package_name, class_name + i, content, false);
         }
         class_num += 30;
