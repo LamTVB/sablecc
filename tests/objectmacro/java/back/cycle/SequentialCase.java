@@ -28,310 +28,35 @@ public class SequentialCase {
         String package_name = SequentialCase.class.getPackage().getName();
         String class_name = "LineCase";
         String content = GraphGenerator.sequentialCase(package_name, class_name, 100);
-        int nbClasses = 0;
+        int class_num = 0;
 
         compileAndRun(package_name, class_name, content, true);
 
-        long total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 250 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 250 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 250);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 500 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 500 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 500);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 750 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 750 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 750);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 1000 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 1000 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 1000);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 1250 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 1250 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 1250);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 1500 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 1500 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 1500);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 1750 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 1750 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 1750);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 2000 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 2000 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 2000);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 2250 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 2250 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 2250);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 2500 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 2500 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 2500);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 2750 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 2750 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 2750);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 3000 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 3000 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 3000);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 3250 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 3250 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 3250);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 3500 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 3500 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 3500);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 3750 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 3750 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 3750);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 4000 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 4000 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 4000);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 4250 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 4250 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 4250);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 4500 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 4500 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 4500);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 4750 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 4750 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 4750);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns");
-
-        total_time = 0;
-
-        System.out.println("=========== SEQUENTIAL for 5000 nodes ==============");
-        writer.write("=========== SEQUENTIAL for 5000 nodes ==============\n");
-
-        for(int i = nbClasses; i < nbClasses + 30; i++){
-            content = GraphGenerator.sequentialCase(package_name, class_name + i, 5000);
-            total_time += compileAndRun(package_name, class_name + i, content, false);
-        }
-        nbClasses += 30;
-
-        writer.write( total_time / 30 + "\n");
-        System.out.println("Total time taken : " + total_time + " ns\n");
-        System.out.println("Average total time taken : " + total_time / 30 + " ns\n");
-
+        runTest(250, package_name, class_name, class_num);
+        runTest(500, package_name, class_name, class_num);
+        runTest(750, package_name, class_name, class_num);
+
+        runTest(1000, package_name, class_name, class_num);
+        runTest(1250, package_name, class_name, class_num);
+        runTest(1500, package_name, class_name, class_num);
+        runTest(1750, package_name, class_name, class_num);
+        runTest(2000, package_name, class_name, class_num);
+
+        runTest(2250, package_name, class_name, class_num);
+        runTest(2500, package_name, class_name, class_num);
+        runTest(2750, package_name, class_name, class_num);
+        runTest(3000, package_name, class_name, class_num);
+
+        runTest(3250, package_name, class_name, class_num);
+        runTest(3500, package_name, class_name, class_num);
+        runTest(3750, package_name, class_name, class_num);
+        runTest(4000, package_name, class_name, class_num);
+
+        runTest(4250, package_name, class_name, class_num);
+        runTest(4500, package_name, class_name, class_num);
+        runTest(4750, package_name, class_name, class_num);
+        runTest(5000, package_name, class_name, class_num);
+        writer.write("\n");
         writer.close();
 
         System.out.println();
@@ -361,6 +86,26 @@ public class SequentialCase {
         }
 
         return 0;
+    }
+
+    private static void runTest(
+            int nb_nodes,
+            String package_name,
+            String class_name,
+            int class_num) throws IOException{
+
+        long total_time = 0;
+        String content;
+        System.out.println("=========== SEQUENTIAL for " + nb_nodes + " nodes ==============");
+        for(int i = class_num; i < class_num + 30; i++){
+            content = GraphGenerator.sequentialCase(package_name, class_name + i, nb_nodes);
+            total_time += compileAndRun(package_name, class_name + i, content, false);
+        }
+        class_num += 30;
+
+        writer.write( total_time / 30 + "\n");
+        System.out.println("Total time taken : " + total_time + " ns");
+        System.out.println("Average total time taken : " + total_time / 30 + " ns");
     }
 }
 
