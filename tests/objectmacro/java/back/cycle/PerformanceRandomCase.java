@@ -18,7 +18,7 @@ public class PerformanceRandomCase {
 
     static {
         try {
-            writer = new BufferedWriter(new FileWriter("ResultRandomNaive.txt", true));
+            writer = new BufferedWriter(new FileWriter("ResultRandomDelta.txt", true));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -28,37 +28,57 @@ public class PerformanceRandomCase {
     public static void main(
             String[] args)throws IOException {
 
-        String package_name = PerformanceRandomCase.class.getPackage().getName();
+        String delta_package = "back.delta";
+        String naif_package = "back.naif";
         String class_name = "RandomCase";
-        String content = GraphGenerator.sequentialCase(package_name, class_name, 1000);
+        String content = GraphGenerator.sequentialCase(delta_package, class_name, 1000);
         writer.write("RANDOM :\n");
-        compileAndRun(package_name, class_name, content, true);
+        compileAndRun(delta_package, class_name, content, true);
 
-        runTest(250, package_name, class_name);
-        runTest(500, package_name, class_name);
-        runTest(750, package_name, class_name);
+        runTest(250, naif_package, class_name, true);
+        runTest(250, delta_package, class_name, false);
+        runTest(500, naif_package, class_name, true);
+        runTest(500, delta_package, class_name, false);
+        runTest(750, naif_package, class_name, true);
+        runTest(750, delta_package, class_name, false);
 
-        runTest(1000, package_name, class_name);
-        runTest(1250, package_name, class_name);
-        runTest(1500, package_name, class_name);
-        runTest(1750, package_name, class_name);
-        runTest(2000, package_name, class_name);
+        runTest(1000, naif_package, class_name, true);
+        runTest(1000, delta_package, class_name, false);
+        runTest(1250, naif_package, class_name, true);
+        runTest(1250, delta_package, class_name, false);
+        runTest(1500, naif_package, class_name, true);
+        runTest(1500, delta_package, class_name, false);
+        runTest(1750, naif_package, class_name, true);
+        runTest(1750, delta_package, class_name, false);
+        runTest(2000, naif_package, class_name, true);
+        runTest(2000, delta_package, class_name, false);
 
-        runTest(2250, package_name, class_name);
-        runTest(2500, package_name, class_name);
-        runTest(2750, package_name, class_name);
-        runTest(3000, package_name, class_name);
+        runTest(2250, naif_package, class_name, true);
+        runTest(2250, delta_package, class_name, false);
+        runTest(2500, naif_package, class_name, true);
+        runTest(2500, delta_package, class_name, false);
+        runTest(2750, naif_package, class_name, true);
+        runTest(2750, delta_package, class_name, false);
+        runTest(3000, naif_package, class_name, true);
+        runTest(3000, delta_package, class_name, false);
 
-        runTest(3250, package_name, class_name);
-        runTest(3500, package_name, class_name);
-        runTest(3750, package_name, class_name);
-        runTest(4000, package_name, class_name);
+        runTest(3250, naif_package, class_name, true);
+        runTest(3250, naif_package, class_name, false);
+        runTest(3500, naif_package, class_name, true);
+        runTest(3500, naif_package, class_name, false);
+        runTest(3750, naif_package, class_name, true);
+        runTest(3750, naif_package, class_name, false);
+        runTest(4000, naif_package, class_name, true);
+        runTest(4000, naif_package, class_name, false);
 
-        runTest(4250, package_name, class_name);
-        runTest(4500, package_name, class_name);
-        runTest(4750, package_name, class_name);
-        runTest(5000, package_name, class_name);
-        runTest(6000, package_name, class_name);
+        runTest(4250, naif_package, class_name, true);
+        runTest(4250, delta_package, class_name, false);
+        runTest(4500, naif_package, class_name, true);
+        runTest(4500, delta_package, class_name, false);
+        runTest(4750, naif_package, class_name, true);
+        runTest(4750, delta_package, class_name, false);
+        runTest(5000, naif_package, class_name, true);
+        runTest(5000, delta_package, class_name, false);
         writer.write("\n");
         writer.close();
 
@@ -94,11 +114,12 @@ public class PerformanceRandomCase {
     private static void runTest(
             int nb_nodes,
             String package_name,
-            String class_name) throws IOException{
+            String class_name,
+            boolean newGeneration) throws IOException{
 
         long total_time = 0;
         System.out.println("=========== RANDOM for " + nb_nodes + " nodes ==============");
-        GraphGenerator.randomCase(package_name, class_name, nb_nodes, true);
+        GraphGenerator.randomCase(package_name, class_name, nb_nodes, newGeneration);
         for(int i = class_num; i < class_num + 30; i++){
             String content = GraphGenerator.randomCase(package_name, class_name + i, nb_nodes, false);
             total_time += compileAndRun(package_name, class_name + i, content, false);
