@@ -63,13 +63,13 @@ public class PerformanceRandomCase {
         runTest(3000, delta_package, class_name, false);
 
         runTest(3250, naif_package, class_name, true);
-        runTest(3250, naif_package, class_name, false);
+        runTest(3250, delta_package, class_name, false);
         runTest(3500, naif_package, class_name, true);
-        runTest(3500, naif_package, class_name, false);
+        runTest(3500, delta_package, class_name, false);
         runTest(3750, naif_package, class_name, true);
-        runTest(3750, naif_package, class_name, false);
+        runTest(3750, delta_package, class_name, false);
         runTest(4000, naif_package, class_name, true);
-        runTest(4000, naif_package, class_name, false);
+        runTest(4000, delta_package, class_name, false);
 
         runTest(4250, naif_package, class_name, true);
         runTest(4250, delta_package, class_name, false);
