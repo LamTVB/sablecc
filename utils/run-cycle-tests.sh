@@ -14,7 +14,7 @@ java -jar lib/objectmacro.jar -d tests/objectmacro/common/intermediate/ tests/ob
 java -jar lib/objectmacro.jar -d tests/objectmacro/common/intermediate/ tests/objectmacro/common/long_sequential_case.objectmacro
 java -jar lib/objectmacro-back.jar -d tests/objectmacro/java -p back.cycle.example.macro tests/objectmacro/common/intermediate/cycle.intermediate
 java -jar lib/objectmacro-back.jar -d tests/objectmacro/java -p back.cycle.macro tests/objectmacro/common/intermediate/tests.intermediate
-java -jar lib/objectmacro-back.jar -d tests/objectmacro/java -p back.naif.macro tests/objectmacro/common/intermediate/tests.intermediate
+java -jar lib/objectmacro-back.jar -d tests/objectmacro/java -p back.delta.macro tests/objectmacro/common/intermediate/tests.intermediate
 java -jar lib/objectmacro-back.jar -d tests/objectmacro/java -p graph_generator.random_case tests/objectmacro/common/intermediate/random_case.intermediate
 java -jar lib/objectmacro-back.jar -d tests/objectmacro/java -p graph_generator.long_sequential tests/objectmacro/common/intermediate/long_sequential_case.intermediate
 javac -cp tests/objectmacro/java/ -d classes/ tests/objectmacro/java/back/*.java tests/objectmacro/java/back/cycle/*.java tests/objectmacro/java/graph_generator/*.java
