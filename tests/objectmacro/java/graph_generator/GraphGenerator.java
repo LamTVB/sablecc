@@ -63,7 +63,10 @@ public class GraphGenerator {
             }
             int randomNum = 0;
             if(newGeneration){
-                randomNum = ThreadLocalRandom.current().nextInt(1, nbNodes);
+                do{
+                    randomNum = ThreadLocalRandom.current().nextInt(1, nbNodes);
+                }
+                while(randomNum == i);
                 macro_names.add(randomNum);
             }
             else{
