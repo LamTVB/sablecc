@@ -373,7 +373,7 @@ Abstract Syntax Tree
 
   source_file_part =
       {macro} macro;
-      
+
   macro =
       macro_kw [name]:identifier [params]:param* [internals]:internal* body [macro_body_parts]:macro_body_part*;
 
