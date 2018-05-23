@@ -81,7 +81,7 @@ public class ObjectMacro {
                     e.getToken().getPos() + "",
                     e.getToken().getClass().getSimpleName().substring(1)
                             .toLowerCase(),
-                    e.getToken().getText(), e.getMessage().substring(start)));
+                    e.getToken().getText(), e.getMessage().substring(start)).build());
             System.err.flush();
             System.exit(1);
         }
@@ -97,7 +97,7 @@ public class ObjectMacro {
             start = e.getMessage().indexOf(' ') + 1;
 
             System.err.print(new MLexicalError(line, pos,
-                    e.getMessage().substring(start)));
+                    e.getMessage().substring(start)).build());
             System.err.flush();
             System.exit(1);
         }
@@ -106,7 +106,7 @@ public class ObjectMacro {
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
             pw.flush();
-            System.err.print(new MInternalError(sw.toString(), e.getMessage()));
+            System.err.print(new MInternalError(sw.toString(), e.getMessage()).build());
             System.err.flush();
             System.exit(1);
         }

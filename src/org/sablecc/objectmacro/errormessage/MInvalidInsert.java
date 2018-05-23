@@ -2,62 +2,166 @@
 
 package org.sablecc.objectmacro.errormessage;
 
-public class MInvalidInsert {
+import java.util.*;
 
-  private final String pLine;
-  private final String pChar;
-  private final String pName;
-  private final MInvalidInsert mInvalidInsert = this;
+public class MInvalidInsert extends Macro{
+    
+    private String field_Line;
+    
+    private String field_Char;
+    
+    private String field_Name;
+    
+    
+    
+    
+    public MInvalidInsert(String pLine, String pChar, String pName){
+    
+            this.setPLine(pLine);
+            this.setPChar(pChar);
+            this.setPName(pName);
+    
+    }
+    
+    
+    private void setPLine( String pLine ){
+        if(pLine == null){
+            throw ObjectMacroException.parameterNull("Line");
+        }
+    
+        this.field_Line = pLine;
+    }
+    
+    private void setPChar( String pChar ){
+        if(pChar == null){
+            throw ObjectMacroException.parameterNull("Char");
+        }
+    
+        this.field_Char = pChar;
+    }
+    
+    private void setPName( String pName ){
+        if(pName == null){
+            throw ObjectMacroException.parameterNull("Name");
+        }
+    
+        this.field_Name = pName;
+    }
+    
+    
+    private String buildLine(){
+    
+        return this.field_Line;
+    }
+    
+    private String buildChar(){
+    
+        return this.field_Char;
+    }
+    
+    private String buildName(){
+    
+        return this.field_Name;
+    }
+    
+    
+    private String getLine(){
+    
+        return this.field_Line;
+    }
+    
+    private String getChar(){
+    
+        return this.field_Char;
+    }
+    
+    private String getName(){
+    
+        return this.field_Name;
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setInvalidInsert(this);
+     }
+    
+    
+    @Override
+    public String build(){
+    
+        BuildState buildState = this.build_state;
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("InvalidInsert");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_state = buildState;
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        MSemanticErrorHead minsert_1 = new MSemanticErrorHead();
+        
+        
+        sb0.append(minsert_1.build(null));
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Line : ");
+        sb0.append(buildLine());
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Char : ");
+        sb0.append(buildChar());
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Macro '");
+        sb0.append(buildName());
+        sb0.append("' cannot be inserted because it also has parameters.");
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    
+    
+    @Override
+    String build(Context context) {
+     return build();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MInvalidInsert(String pLine, String pChar, String pName) {
-    if(pLine == null) throw new NullPointerException();
-    this.pLine = pLine;
-    if(pChar == null) throw new NullPointerException();
-    this.pChar = pChar;
-    if(pName == null) throw new NullPointerException();
-    this.pName = pName;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pLine() {
-    return this.pLine;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  String pChar() {
-    return this.pChar;
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  String pName() {
-    return this.pName;
-  }
-
-  private String rLine() {
-    return this.mInvalidInsert.pLine();
-  }
-
-  private String rChar() {
-    return this.mInvalidInsert.pChar();
-  }
-
-  private String rName() {
-    return this.mInvalidInsert.pName();
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(new MSemanticErrorHead().toString());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Line : ");
-    sb.append(rLine());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Char : ");
-    sb.append(rChar());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Macro '");
-    sb.append(rName());
-    sb.append("' cannot be inserted because it also has parameters.");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }

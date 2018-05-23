@@ -2,75 +2,189 @@
 
 package org.sablecc.objectmacro.errormessage;
 
-public class MIncorrectArgumentCount {
+import java.util.*;
 
-  private final String pLine;
-  private final String pChar;
-  private final String pExpectedCount;
-  private final String pCurrentCount;
-  private final MIncorrectArgumentCount mIncorrectArgumentCount = this;
+public class MIncorrectArgumentCount extends Macro{
+    
+    private String field_Line;
+    
+    private String field_Char;
+    
+    private String field_ExpectedCount;
+    
+    private String field_CurrentCount;
+    
+    
+    
+    
+    public MIncorrectArgumentCount(String pLine, String pChar, String pExpectedCount, String pCurrentCount){
+    
+            this.setPLine(pLine);
+            this.setPChar(pChar);
+            this.setPExpectedCount(pExpectedCount);
+            this.setPCurrentCount(pCurrentCount);
+    
+    }
+    
+    
+    private void setPLine( String pLine ){
+        if(pLine == null){
+            throw ObjectMacroException.parameterNull("Line");
+        }
+    
+        this.field_Line = pLine;
+    }
+    
+    private void setPChar( String pChar ){
+        if(pChar == null){
+            throw ObjectMacroException.parameterNull("Char");
+        }
+    
+        this.field_Char = pChar;
+    }
+    
+    private void setPExpectedCount( String pExpectedCount ){
+        if(pExpectedCount == null){
+            throw ObjectMacroException.parameterNull("ExpectedCount");
+        }
+    
+        this.field_ExpectedCount = pExpectedCount;
+    }
+    
+    private void setPCurrentCount( String pCurrentCount ){
+        if(pCurrentCount == null){
+            throw ObjectMacroException.parameterNull("CurrentCount");
+        }
+    
+        this.field_CurrentCount = pCurrentCount;
+    }
+    
+    
+    private String buildLine(){
+    
+        return this.field_Line;
+    }
+    
+    private String buildChar(){
+    
+        return this.field_Char;
+    }
+    
+    private String buildExpectedCount(){
+    
+        return this.field_ExpectedCount;
+    }
+    
+    private String buildCurrentCount(){
+    
+        return this.field_CurrentCount;
+    }
+    
+    
+    private String getLine(){
+    
+        return this.field_Line;
+    }
+    
+    private String getChar(){
+    
+        return this.field_Char;
+    }
+    
+    private String getExpectedCount(){
+    
+        return this.field_ExpectedCount;
+    }
+    
+    private String getCurrentCount(){
+    
+        return this.field_CurrentCount;
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setIncorrectArgumentCount(this);
+     }
+    
+    
+    @Override
+    public String build(){
+    
+        BuildState buildState = this.build_state;
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("IncorrectArgumentCount");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_state = buildState;
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        MSemanticErrorHead minsert_1 = new MSemanticErrorHead();
+        
+        
+        sb0.append(minsert_1.build(null));
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Line: ");
+        sb0.append(buildLine());
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Char: ");
+        sb0.append(buildChar());
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("The macro reference has ");
+        sb0.append(buildCurrentCount());
+        sb0.append(" arguments, instead of ");
+        sb0.append(buildExpectedCount());
+        sb0.append(" arguments.");
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    
+    
+    @Override
+    String build(Context context) {
+     return build();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MIncorrectArgumentCount(String pLine, String pChar, String pExpectedCount, String pCurrentCount) {
-    if(pLine == null) throw new NullPointerException();
-    this.pLine = pLine;
-    if(pChar == null) throw new NullPointerException();
-    this.pChar = pChar;
-    if(pExpectedCount == null) throw new NullPointerException();
-    this.pExpectedCount = pExpectedCount;
-    if(pCurrentCount == null) throw new NullPointerException();
-    this.pCurrentCount = pCurrentCount;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pLine() {
-    return this.pLine;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  String pChar() {
-    return this.pChar;
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  String pExpectedCount() {
-    return this.pExpectedCount;
-  }
-
-  String pCurrentCount() {
-    return this.pCurrentCount;
-  }
-
-  private String rLine() {
-    return this.mIncorrectArgumentCount.pLine();
-  }
-
-  private String rChar() {
-    return this.mIncorrectArgumentCount.pChar();
-  }
-
-  private String rCurrentCount() {
-    return this.mIncorrectArgumentCount.pCurrentCount();
-  }
-
-  private String rExpectedCount() {
-    return this.mIncorrectArgumentCount.pExpectedCount();
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(new MSemanticErrorHead().toString());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Line: ");
-    sb.append(rLine());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Char: ");
-    sb.append(rChar());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("The macro reference has ");
-    sb.append(rCurrentCount());
-    sb.append(" arguments, instead of ");
-    sb.append(rExpectedCount());
-    sb.append(" arguments.");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }

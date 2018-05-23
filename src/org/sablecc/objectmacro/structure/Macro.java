@@ -142,8 +142,9 @@ public class Macro {
             throw new InternalException("param may not be null");
         }
 
-        if(!this.namedParams.containsKey(param.getName())){
-            //TODO EXCEPTION
+        Param declaration = getParamOrNull(param.getNameDeclaration());
+
+        if(declaration == null){
             throw CompilerException.unknownParam(param.getNameDeclaration());
         }
     }
@@ -246,25 +247,10 @@ public class Macro {
         }
     }
 
-    public ComponentFinder<Param> getComponentFinder() {
-
-        return this.paramsComponentFinder;
-    }
-
     void addVersion(
             MacroVersion version){
 
         this.versions.add(version);
-    }
-
-    public boolean isVersion(
-            MacroVersion version){
-
-        return this.versions.contains(version);
-    }
-
-    public boolean isVersionned(){
-        return this.versions.size() > 0;
     }
 
     public Set<MacroVersion> getVersions(){

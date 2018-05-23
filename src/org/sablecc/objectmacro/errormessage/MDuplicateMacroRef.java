@@ -2,75 +2,189 @@
 
 package org.sablecc.objectmacro.errormessage;
 
-public class MDuplicateMacroRef {
+import java.util.*;
 
-  private final String pParam;
-  private final String pMacro;
-  private final String pLine;
-  private final String pChar;
-  private final MDuplicateMacroRef mDuplicateMacroRef = this;
+public class MDuplicateMacroRef extends Macro{
+    
+    private String field_Param;
+    
+    private String field_Macro;
+    
+    private String field_Line;
+    
+    private String field_Char;
+    
+    
+    
+    
+    public MDuplicateMacroRef(String pParam, String pMacro, String pLine, String pChar){
+    
+            this.setPParam(pParam);
+            this.setPMacro(pMacro);
+            this.setPLine(pLine);
+            this.setPChar(pChar);
+    
+    }
+    
+    
+    private void setPParam( String pParam ){
+        if(pParam == null){
+            throw ObjectMacroException.parameterNull("Param");
+        }
+    
+        this.field_Param = pParam;
+    }
+    
+    private void setPMacro( String pMacro ){
+        if(pMacro == null){
+            throw ObjectMacroException.parameterNull("Macro");
+        }
+    
+        this.field_Macro = pMacro;
+    }
+    
+    private void setPLine( String pLine ){
+        if(pLine == null){
+            throw ObjectMacroException.parameterNull("Line");
+        }
+    
+        this.field_Line = pLine;
+    }
+    
+    private void setPChar( String pChar ){
+        if(pChar == null){
+            throw ObjectMacroException.parameterNull("Char");
+        }
+    
+        this.field_Char = pChar;
+    }
+    
+    
+    private String buildParam(){
+    
+        return this.field_Param;
+    }
+    
+    private String buildMacro(){
+    
+        return this.field_Macro;
+    }
+    
+    private String buildLine(){
+    
+        return this.field_Line;
+    }
+    
+    private String buildChar(){
+    
+        return this.field_Char;
+    }
+    
+    
+    private String getParam(){
+    
+        return this.field_Param;
+    }
+    
+    private String getMacro(){
+    
+        return this.field_Macro;
+    }
+    
+    private String getLine(){
+    
+        return this.field_Line;
+    }
+    
+    private String getChar(){
+    
+        return this.field_Char;
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setDuplicateMacroRef(this);
+     }
+    
+    
+    @Override
+    public String build(){
+    
+        BuildState buildState = this.build_state;
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("DuplicateMacroRef");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_state = buildState;
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        MSemanticErrorHead minsert_1 = new MSemanticErrorHead();
+        
+        
+        sb0.append(minsert_1.build(null));
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Line: ");
+        sb0.append(buildLine());
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Char: ");
+        sb0.append(buildChar());
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("Parameter '");
+        sb0.append(buildParam());
+        sb0.append("' has already referenced Macro '");
+        sb0.append(buildMacro());
+        sb0.append("'.");
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    
+    
+    @Override
+    String build(Context context) {
+     return build();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MDuplicateMacroRef(String pParam, String pMacro, String pLine, String pChar) {
-    if(pParam == null) throw new NullPointerException();
-    this.pParam = pParam;
-    if(pMacro == null) throw new NullPointerException();
-    this.pMacro = pMacro;
-    if(pLine == null) throw new NullPointerException();
-    this.pLine = pLine;
-    if(pChar == null) throw new NullPointerException();
-    this.pChar = pChar;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pParam() {
-    return this.pParam;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  String pMacro() {
-    return this.pMacro;
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  String pLine() {
-    return this.pLine;
-  }
-
-  String pChar() {
-    return this.pChar;
-  }
-
-  private String rLine() {
-    return this.mDuplicateMacroRef.pLine();
-  }
-
-  private String rChar() {
-    return this.mDuplicateMacroRef.pChar();
-  }
-
-  private String rParam() {
-    return this.mDuplicateMacroRef.pParam();
-  }
-
-  private String rMacro() {
-    return this.mDuplicateMacroRef.pMacro();
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(new MSemanticErrorHead().toString());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Line: ");
-    sb.append(rLine());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Char: ");
-    sb.append(rChar());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("Parameter '");
-    sb.append(rParam());
-    sb.append("' has already referenced Macro '");
-    sb.append(rMacro());
-    sb.append("'.");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }

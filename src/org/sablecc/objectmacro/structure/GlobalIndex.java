@@ -158,8 +158,7 @@ public class GlobalIndex {
         }
 
         if(!this.allVersions.containsKey(version_name.getText())){
-            //TODO exception for version
-            throw CompilerException.unknownMacro(version_name);
+            throw CompilerException.unknownVersion(version_name);
         }
 
         return this.allVersions.get(version_name.getText());

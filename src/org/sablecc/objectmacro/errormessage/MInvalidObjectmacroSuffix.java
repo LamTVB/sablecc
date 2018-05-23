@@ -2,36 +2,124 @@
 
 package org.sablecc.objectmacro.errormessage;
 
-public class MInvalidObjectmacroSuffix {
+import java.util.*;
 
-  private final String pFileName;
-  private final MInvalidObjectmacroSuffix mInvalidObjectmacroSuffix = this;
+public class MInvalidObjectmacroSuffix extends Macro{
+    
+    private String field_FileName;
+    
+    
+    
+    
+    public MInvalidObjectmacroSuffix(String pFileName){
+    
+            this.setPFileName(pFileName);
+    
+    }
+    
+    
+    private void setPFileName( String pFileName ){
+        if(pFileName == null){
+            throw ObjectMacroException.parameterNull("FileName");
+        }
+    
+        this.field_FileName = pFileName;
+    }
+    
+    
+    private String buildFileName(){
+    
+        return this.field_FileName;
+    }
+    
+    
+    private String getFileName(){
+    
+        return this.field_FileName;
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setInvalidObjectmacroSuffix(this);
+     }
+    
+    
+    @Override
+    public String build(){
+    
+        BuildState buildState = this.build_state;
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("InvalidObjectmacroSuffix");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_state = buildState;
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        MCommandLineErrorHead minsert_1 = new MCommandLineErrorHead();
+        
+        
+        sb0.append(minsert_1.build(null));
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("The macro file, \"");
+        sb0.append(buildFileName());
+        sb0.append("\", does not have a .objectmacro suffix.");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        MCommandLineErrorTail minsert_2 = new MCommandLineErrorTail();
+        
+        
+        sb0.append(minsert_2.build(null));
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    
+    
+    @Override
+    String build(Context context) {
+     return build();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MInvalidObjectmacroSuffix(String pFileName) {
-    if(pFileName == null) throw new NullPointerException();
-    this.pFileName = pFileName;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pFileName() {
-    return this.pFileName;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  private String rFileName() {
-    return this.mInvalidObjectmacroSuffix.pFileName();
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(new MCommandLineErrorHead().toString());
-    sb.append(System.getProperty("line.separator"));
-    sb.append("The macro file, \"");
-    sb.append(rFileName());
-    sb.append("\", does not have a .objectmacro suffix.");
-    sb.append(System.getProperty("line.separator"));
-    sb.append(System.getProperty("line.separator"));
-    sb.append(new MCommandLineErrorTail().toString());
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }
