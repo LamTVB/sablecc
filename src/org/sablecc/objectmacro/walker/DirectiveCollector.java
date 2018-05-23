@@ -14,34 +14,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.sablecc.objectmacro.walker;
 
+import org.sablecc.exception.InternalException;
 import org.sablecc.objectmacro.exception.CompilerException;
-import org.sablecc.objectmacro.structure.*;
+import org.sablecc.objectmacro.structure.External;
+import org.sablecc.objectmacro.structure.GlobalIndex;
+import org.sablecc.objectmacro.structure.Macro;
+import org.sablecc.objectmacro.structure.MacroVersion;
 import org.sablecc.objectmacro.syntax3.analysis.DepthFirstAdapter;
-import org.sablecc.objectmacro.syntax3.node.*;
+import org.sablecc.objectmacro.syntax3.node.ADirective;
+import org.sablecc.objectmacro.syntax3.node.AMacro;
+import org.sablecc.objectmacro.syntax3.node.AParam;
 import org.sablecc.objectmacro.util.Utils;
 
 public class DirectiveCollector
-        extends DepthFirstAdapter {
+        extends
+        DepthFirstAdapter {
 
-    private GlobalIndex globalIndex;
+    private final GlobalIndex globalIndex;
+
+    private final MacroVersion currentVersion;
 
     private Macro currentMacro;
 
     private External currentParam;
 
     public DirectiveCollector(
-            GlobalIndex globalIndex){
+            GlobalIndex globalIndex,
+            MacroVersion version) {
+
+        if (globalIndex == null) {
+            throw new InternalException("globalIndex may not be null");
+        }
 
         this.globalIndex = globalIndex;
+        this.currentVersion = version;
+    }
+
+    @Override
+    public void caseAMacro(
+            AMacro node) {
+
+        //if currentMacro is not of version 'currentVersion' then go to next macro node
+        if(this.currentVersion != null
+                && node.getVersions().size() > 0
+                && !Utils.containsVersion(node.getVersions(), this.currentVersion)){
+            return;
+        }
+
+        super.caseAMacro(node);
     }
 
     @Override
     public void inAMacro(
             AMacro node) {
 
-        this.currentMacro = this.globalIndex.getMacro(node.getName());
+        this.currentMacro = this.globalIndex.getMacro(node.getName(), this.currentVersion);
+        if(this.currentMacro == null){
+            throw CompilerException.unknownMacro(node.getName());
+        }
     }
 
     @Override
@@ -55,7 +88,8 @@ public class DirectiveCollector
     public void inAParam(
             AParam node) {
 
-        this.currentParam = (External) this.currentMacro.getParam(node.getName());
+        this.currentParam = (External) this.currentMacro
+                .getParam(node.getName());
     }
 
     @Override
@@ -70,10 +104,10 @@ public class DirectiveCollector
             ADirective node) {
 
         String directive_name = node.getName().getText();
-        if(!directive_name.equals("separator")
+        if (!directive_name.equals("separator")
                 && !directive_name.equals("after_last")
                 && !directive_name.equals("before_first")
-                && !directive_name.equals("none") ){
+                && !directive_name.equals("none")) {
 
             throw CompilerException.unknownOption(node);
         }

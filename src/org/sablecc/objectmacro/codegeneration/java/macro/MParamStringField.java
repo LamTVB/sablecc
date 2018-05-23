@@ -2,32 +2,112 @@
 
 package org.sablecc.objectmacro.codegeneration.java.macro;
 
-public class MParamStringField {
+import java.util.*;
 
-  private final String pName;
-  private final MParamStringField mParamStringField = this;
+public class MParamStringField extends Macro{
+    
+    private String field_Name;
+    
+    
+    
+    
+    public MParamStringField(String pName){
+    
+            this.setPName(pName);
+    
+    }
+    
+    
+    private void setPName( String pName ){
+        if(pName == null){
+            throw ObjectMacroException.parameterNull("Name");
+        }
+    
+        this.field_Name = pName;
+    }
+    
+    
+    private String buildName(){
+    
+        return this.field_Name;
+    }
+    
+    
+    private String getName(){
+    
+        return this.field_Name;
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setParamStringField(this);
+     }
+    
+    
+    @Override
+    public String build(){
+    
+        BuildState buildState = this.build_state;
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("ParamStringField");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_state = buildState;
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        sb0.append("String field_");
+        sb0.append(buildName());
+        sb0.append(";");
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    
+    
+    @Override
+    String build(Context context) {
+     return build();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MParamStringField(String pName) {
-    if(pName == null) throw new NullPointerException();
-    this.pName = pName;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pName() {
-    return this.pName;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  private String rName() {
-    return this.mParamStringField.pName();
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("    private String field_");
-    sb.append(rName());
-    sb.append(";");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }

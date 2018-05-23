@@ -1,0 +1,24 @@
+Version x,y
+
+Macro a
+    Param
+        x : b("lala");
+{Body}
+
+{End}
+
+Macro b
+    Version
+        x;
+{Body}
+
+{End}
+
+Macro b
+    Version
+        y;
+    Internal
+        x : String;
+{Body}
+
+{End}

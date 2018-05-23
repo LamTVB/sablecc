@@ -2,32 +2,108 @@
 
 package org.sablecc.objectmacro.codegeneration.java.macro;
 
-public class MContextField {
+import java.util.*;
 
-  private final String pName;
-  private final MContextField mContextField = this;
+public class MContextField extends Macro{
+    
+    private Map<Context, String> field_ParamName = new LinkedHashMap<>();
+    
+    
+    
+    
+    public MContextField(){
+    
+    
+    }
+    
+    
+        void setParamName(
+                Context context,
+                String value) {
+    
+            if(value == null){
+                throw new RuntimeException("value cannot be null here");
+            }
+    
+            this.field_ParamName.put(context, value);
+        }
+    
+    
+    private String buildParamName(Context context){
+    
+        return this.field_ParamName.get(context);
+    }
+    
+    
+    private String getParamName(Context context){
+    
+        return this.field_ParamName.get(context);
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setContextField(this);
+     }
+    
+    
+    @Override
+    public String build(Context context){
+    
+        BuildState buildState = this.build_states.get(context);
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("ContextField");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_states.put(context, buildState);
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        sb0.append("final Context ");
+        sb0.append(buildParamName(context));
+        sb0.append("Context = new Context();");
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MContextField(String pName) {
-    if(pName == null) throw new NullPointerException();
-    this.pName = pName;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pName() {
-    return this.pName;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  private String rName() {
-    return this.mContextField.pName();
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("    private final Context ");
-    sb.append(rName());
-    sb.append("Context = new Context();");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }

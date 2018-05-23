@@ -2,32 +2,108 @@
 
 package org.sablecc.objectmacro.codegeneration.java.macro;
 
-public class MInternalMacrosValueField {
+import java.util.*;
 
-  private final String pParamName;
-  private final MInternalMacrosValueField mInternalMacrosValueField = this;
+public class MInternalMacrosValueField extends Macro{
+    
+    private Map<Context, String> field_ParamName = new LinkedHashMap<>();
+    
+    
+    
+    
+    public MInternalMacrosValueField(){
+    
+    
+    }
+    
+    
+        void setParamName(
+                Context context,
+                String value) {
+    
+            if(value == null){
+                throw new RuntimeException("value cannot be null here");
+            }
+    
+            this.field_ParamName.put(context, value);
+        }
+    
+    
+    private String buildParamName(Context context){
+    
+        return this.field_ParamName.get(context);
+    }
+    
+    
+    private String getParamName(Context context){
+    
+        return this.field_ParamName.get(context);
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setInternalMacrosValueField(this);
+     }
+    
+    
+    @Override
+    public String build(Context context){
+    
+        BuildState buildState = this.build_states.get(context);
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("InternalMacrosValueField");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_states.put(context, buildState);
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        sb0.append("final InternalValue ");
+        sb0.append(buildParamName(context));
+        sb0.append("Value;");
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MInternalMacrosValueField(String pParamName) {
-    if(pParamName == null) throw new NullPointerException();
-    this.pParamName = pParamName;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pParamName() {
-    return this.pParamName;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  private String rParamName() {
-    return this.mInternalMacrosValueField.pParamName();
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("    private final InternalValue ");
-    sb.append(rParamName());
-    sb.append("Value;");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }

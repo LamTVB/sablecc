@@ -2,41 +2,118 @@
 
 package org.sablecc.objectmacro.codegeneration.java.macro;
 
-public class MRedefinedApplyInitializer {
+import java.util.*;
 
-  private final String pName;
-  private final MRedefinedApplyInitializer mRedefinedApplyInitializer = this;
+public class MRedefinedApplyInitializer extends Macro{
+    
+    private Map<Context, String> field_ClassName = new LinkedHashMap<>();
+    
+    
+    
+    
+    public MRedefinedApplyInitializer(){
+    
+    
+    }
+    
+    
+        void setClassName(
+                Context context,
+                String value) {
+    
+            if(value == null){
+                throw new RuntimeException("value cannot be null here");
+            }
+    
+            this.field_ClassName.put(context, value);
+        }
+    
+    
+    private String buildClassName(Context context){
+    
+        return this.field_ClassName.get(context);
+    }
+    
+    
+    private String getClassName(Context context){
+    
+        return this.field_ClassName.get(context);
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setRedefinedApplyInitializer(this);
+     }
+    
+    
+    @Override
+    public String build(Context context){
+    
+        BuildState buildState = this.build_states.get(context);
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("RedefinedApplyInitializer");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_states.put(context, buildState);
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        sb0.append("@Override");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(" void apply(");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("         InternalsInitializer internalsInitializer)");
+        sb0.append("{");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("     internalsInitializer.set");
+        sb0.append(buildClassName(context));
+        sb0.append("(this);");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(" }");
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MRedefinedApplyInitializer(String pName) {
-    if(pName == null) throw new NullPointerException();
-    this.pName = pName;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pName() {
-    return this.pName;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  private String rName() {
-    return this.mRedefinedApplyInitializer.pName();
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("    @Override");
-    sb.append(System.getProperty("line.separator"));
-    sb.append("    void apply(");
-    sb.append(System.getProperty("line.separator"));
-    sb.append("            InternalsInitializer internalsInitializer){");
-    sb.append(System.getProperty("line.separator"));
-    sb.append(System.getProperty("line.separator"));
-    sb.append("        internalsInitializer.set");
-    sb.append(rName());
-    sb.append("(this);");
-    sb.append(System.getProperty("line.separator"));
-    sb.append("    }");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }

@@ -17,7 +17,12 @@
 
 package org.sablecc.objectmacro.util;
 
-import org.sablecc.objectmacro.syntax3.node.*;
+import org.sablecc.exception.InternalException;
+import org.sablecc.objectmacro.structure.MacroVersion;
+import org.sablecc.objectmacro.syntax3.node.TIdentifier;
+import org.sablecc.objectmacro.syntax3.node.TVariable;
+
+import java.util.*;
 
 public class Utils {
 
@@ -66,9 +71,30 @@ public class Utils {
     }
 
     public static String[] splitName(
-            TIdentifier identifier){
+            TIdentifier identifier) {
 
         return identifier.getText().split(NAME_SEPARATOR);
+    }
+
+    public static boolean containsVersion(
+            List<TIdentifier> versions,
+            MacroVersion version){
+
+        if(versions == null){
+            throw new InternalException("versions may not be null");
+        }
+
+        if(version == null){
+            throw new InternalException("version may not be null");
+        }
+
+        for(TIdentifier l_version : versions){
+            if(l_version.getText().equals(version.getName().getText())){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

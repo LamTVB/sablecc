@@ -1,0 +1,13 @@
+Version x, y
+
+Macro a
+{Body}
+
+{End}
+
+Macro a
+    Version
+        x;
+{Body}
+
+{End}

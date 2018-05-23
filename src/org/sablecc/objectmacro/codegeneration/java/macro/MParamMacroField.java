@@ -2,32 +2,124 @@
 
 package org.sablecc.objectmacro.codegeneration.java.macro;
 
-public class MParamMacroField {
+import java.util.*;
 
-  private final String pName;
-  private final MParamMacroField mParamMacroField = this;
+public class MParamMacroField extends Macro{
+    
+    private String field_ParamName;
+    
+    
+    
+    
+    public MParamMacroField(String pParamName){
+    
+            this.setPParamName(pParamName);
+    
+    }
+    
+    
+    private void setPParamName( String pParamName ){
+        if(pParamName == null){
+            throw ObjectMacroException.parameterNull("ParamName");
+        }
+    
+        this.field_ParamName = pParamName;
+    }
+    
+    
+    private String buildParamName(){
+    
+        return this.field_ParamName;
+    }
+    
+    
+    private String getParamName(){
+    
+        return this.field_ParamName;
+    }
+    
+    
+    
+    
+    
+    @Override
+     void apply(
+             InternalsInitializer internalsInitializer){
+    
+         internalsInitializer.setParamMacroField(this);
+     }
+    
+    
+    @Override
+    public String build(){
+    
+        BuildState buildState = this.build_state;
+    
+        if(buildState == null){
+            buildState = new BuildState();
+        }
+        else if(buildState.getExpansion() == null){
+            throw ObjectMacroException.cyclicReference("ParamMacroField");
+        }
+        else{
+            return buildState.getExpansion();
+        }
+        this.build_state = buildState;
+        List<String> indentations = new LinkedList<>();
+        StringBuilder sbIndentation = new StringBuilder();
+    
+        
+    
+    
+    
+        StringBuilder sb0 = new StringBuilder();
+    
+        sb0.append("final List<Macro> list_");
+        sb0.append(buildParamName());
+        sb0.append(";");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        MContextField minsert_1 = new MContextField();
+        
+        minsert_1.setParamName(null, getParamName());
+        sb0.append(minsert_1.build(null));
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        MInternalMacrosValueField minsert_2 = new MInternalMacrosValueField();
+        
+        minsert_2.setParamName(null, getParamName());
+        sb0.append(minsert_2.build(null));
+    
+        buildState.setExpansion(sb0.toString());
+        return sb0.toString();
+    }
+    
+    
+    @Override
+    String build(Context context) {
+     return build();
+    }
+    private String applyIndent(
+                            String macro,
+                            String indent){
 
-  public MParamMacroField(String pName) {
-    if(pName == null) throw new NullPointerException();
-    this.pName = pName;
-  }
+            StringBuilder sb = new StringBuilder();
+            String[] lines = macro.split( "\n");
 
-  String pName() {
-    return this.pName;
-  }
+            if(lines.length > 1){
+                for(int i = 0; i < lines.length; i++){
+                    String line = lines[i];
+                    sb.append(indent).append(line);
 
-  private String rName() {
-    return this.mParamMacroField.pName();
-  }
+                    if(i < lines.length - 1){
+                        sb.append(LINE_SEPARATOR);
+                    }
+                }
+            }
+            else{
+                sb.append(indent).append(macro);
+            }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("    private final List<Macro> list_");
-    sb.append(rName());
-    sb.append(";");
-    sb.append(System.getProperty("line.separator"));
-    return sb.toString();
-  }
-
+            return sb.toString();
+    }
 }
