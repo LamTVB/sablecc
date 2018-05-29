@@ -10,25 +10,36 @@ public class Main {
     public static void main(
             String[] args){
 
-        Macros m = new Macros();
+        Macros m = new Macros(VERSIONS.JAVA5);
 
-        MClass mClass = m.newClass("MaClasse");
-        MFor mFor = m.newFor("String", "test");
+        MClass mClass = m.newClass();
+        mClass.addName("maClasse");
+        MFor mFor = m.newFor();
+        mFor.addTest("test");
+        mFor.addClassName("String");
+        mFor.addParameterName("strings");
 
-        mClass.addTest(mFor);
-        MEnum mEnum = m.newEnum("Enum");
+        MEnum mEnum = m.newEnum();
+        mEnum.addEnumName("ENUM");
 
         List<Macro> macros = new LinkedList<>();
-        MConstant mConstant = m.newConstant("A");
-        MConstant mConstant2 = m.newConstant("B");
+        MConstant mConstant = m.newConstant();
+        mConstant.addName("A");
+        MConstant mConstant2 = m.newConstant();
+        mConstant2.addName("B");
 
         macros.add(mConstant);
         macros.add(mConstant2);
 
         mEnum.addAllEnumConstants(macros);
 
-        mConstant.addValues(m.newValue("1"));
-        mConstant2.addValues(m.newValue("2"));
+        MValue value = m.newValue();
+        value.addValue("1");
+        mConstant.addValues(value);
+
+        value = m.newValue();
+        value.addValue("2");
+        mConstant2.addValues(value);
 
         mClass.addEnums(mEnum);
         System.out.println(mClass.build());

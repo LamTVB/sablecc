@@ -465,8 +465,9 @@ public  class MMacroFactory extends Macro{
         sb0.append(m2.build(null));
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("public class Macros");
+        sb0.append("public class Macros ");
         sb0.append("{");
+        sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
         sb0.append("    private VERSIONS version;");
         sb0.append(LINE_SEPARATOR);

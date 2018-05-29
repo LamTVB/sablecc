@@ -71,7 +71,7 @@ public  class MInternalMacroSetter extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("            Context context,");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("            InternalValue internal_value) ");
+        sb0.append("            MacroValue macro_value) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
@@ -85,7 +85,7 @@ public  class MInternalMacroSetter extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("    this.list_");
         sb0.append(buildParamName());
-        sb0.append(".put(context, internal_value);");
+        sb0.append(".put(context, macro_value);");
         sb0.append(LINE_SEPARATOR);
         sb0.append("}");
     

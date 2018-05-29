@@ -164,7 +164,10 @@ public  class MParamMacroRefBuilder extends Macro{
         StringBuilder sb1 = new StringBuilder();
         sb1.append("context");
         this.ContextNameNone = new DNone(sb1.toString());
-        this.ContextNameValue.setNone(this.ContextNameNone);
+        this.ContextNameValue.setNone(this.ContextNameNone);StringBuilder sb2 = new StringBuilder();
+        sb2.append("this.");
+        this.ContextNameBeforeFirst = new DBeforeFirst(sb2.toString());
+        this.ContextNameValue.setBeforeFirst(this.ContextNameBeforeFirst);
     }
     @Override
     void apply(
@@ -199,7 +202,7 @@ public  class MParamMacroRefBuilder extends Macro{
     
         sb0.append("private String build");
         sb0.append(buildName());
-        sb0.append("()");
+        sb0.append("() ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    StringBuilder sb = new StringBuilder();");
@@ -222,7 +225,7 @@ public  class MParamMacroRefBuilder extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("    if(this.");
         sb0.append(buildName());
-        sb0.append("None != null)");
+        sb0.append("None != null) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("        sb.append(this.");
@@ -232,7 +235,7 @@ public  class MParamMacroRefBuilder extends Macro{
         sb0.append("    }");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    for(Macro macro : macros)");
+        sb0.append("    for(Macro macro : macros) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("        expansion = macro.build(local_context);");
@@ -240,7 +243,7 @@ public  class MParamMacroRefBuilder extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("        if(this.");
         sb0.append(buildName());
-        sb0.append("BeforeFirst != null)");
+        sb0.append("BeforeFirst != null) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            expansion = this.");
@@ -252,7 +255,7 @@ public  class MParamMacroRefBuilder extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("        if(this.");
         sb0.append(buildName());
-        sb0.append("AfterLast != null)");
+        sb0.append("AfterLast != null) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            expansion = this.");
@@ -264,7 +267,7 @@ public  class MParamMacroRefBuilder extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("        if(this.");
         sb0.append(buildName());
-        sb0.append("Separator != null)");
+        sb0.append("Separator != null) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            expansion = this.");

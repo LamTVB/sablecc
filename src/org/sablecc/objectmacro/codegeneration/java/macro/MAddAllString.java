@@ -4,37 +4,15 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MSingleAdd extends Macro{
-    
-    String field_ReferencedMacroName;
-    
-    String field_CurrentMacroName;
+public  class MAddAllString extends Macro{
     
     String field_ParamName;
     
-    MSingleAdd(String pReferencedMacroName, String pCurrentMacroName, String pParamName, Macros macros){
+    MAddAllString(String pParamName, Macros macros){
         
         
         this.setMacros(macros);
-        this.setPReferencedMacroName(pReferencedMacroName);
-        this.setPCurrentMacroName(pCurrentMacroName);
         this.setPParamName(pParamName);
-    }
-    
-    private void setPReferencedMacroName( String pReferencedMacroName ){
-        if(pReferencedMacroName == null){
-            throw ObjectMacroException.parameterNull("ReferencedMacroName");
-        }
-    
-        this.field_ReferencedMacroName = pReferencedMacroName;
-    }
-    
-    private void setPCurrentMacroName( String pCurrentMacroName ){
-        if(pCurrentMacroName == null){
-            throw ObjectMacroException.parameterNull("CurrentMacroName");
-        }
-    
-        this.field_CurrentMacroName = pCurrentMacroName;
     }
     
     private void setPParamName( String pParamName ){
@@ -45,29 +23,9 @@ public  class MSingleAdd extends Macro{
         this.field_ParamName = pParamName;
     }
     
-    String buildReferencedMacroName(){
-    
-        return this.field_ReferencedMacroName;
-    }
-    
-    String buildCurrentMacroName(){
-    
-        return this.field_CurrentMacroName;
-    }
-    
     String buildParamName(){
     
         return this.field_ParamName;
-    }
-    
-    String getReferencedMacroName(){
-    
-        return this.field_ReferencedMacroName;
-    }
-    
-    String getCurrentMacroName(){
-    
-        return this.field_CurrentMacroName;
     }
     
     String getParamName(){
@@ -80,7 +38,7 @@ public  class MSingleAdd extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setSingleAdd(this);
+        internalsInitializer.setAddAllString(this);
     }
     
     
@@ -107,14 +65,15 @@ public  class MSingleAdd extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("public void add");
+        sb0.append("public void addAll");
         sb0.append(buildParamName());
-        sb0.append("(M");
-        sb0.append(buildReferencedMacroName());
-        sb0.append(" macro)");
+        sb0.append("(");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("                List<String> strings)");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    if(macro == null)");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("    if(macros == null)");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("        throw ObjectMacroException.parameterNull(\"");
@@ -129,25 +88,28 @@ public  class MSingleAdd extends Macro{
         indentations.add(sb2.toString());
         MIsBuilt m1 = this.getMacros().newIsBuilt();
         
-        m1.setMacroName(null, getCurrentMacroName());
+        
         sb1.append(m1.build(null));
-        sb1.append(LINE_SEPARATOR);
-        sb1.append(LINE_SEPARATOR);
-        MFactoryComparison m2 = this.getMacros().newFactoryComparison();
-        StringBuilder sb3 = new StringBuilder();
-        sb3.append("macro");
-        m2.setVarName(null, sb3.toString());
-        sb1.append(m2.build(null));
         sb0.append(applyIndent(sb1.toString(), indentations.remove(indentations.size() - 1)));
         sb0.append(LINE_SEPARATOR);
+        sb0.append("    for(String string : strings) ");
+        sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    this.list_");
+        sb0.append("        if(string == null) ");
+        sb0.append("{");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("            throw ObjectMacroException.parameterNull(\"");
         sb0.append(buildParamName());
-        sb0.append(".add(macro);");
+        sb0.append("\");");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    this.children.add(macro);");
+        sb0.append("        }");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    Macro.cycleDetector.detectCycle(this, macro);");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("        this.list_");
+        sb0.append(buildParamName());
+        sb0.append(".add(string);");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("    }");
         sb0.append(LINE_SEPARATOR);
         sb0.append("}");
     

@@ -71,7 +71,7 @@ public  class MInternalStringSetter extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("        Context context,");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("        String value) ");
+        sb0.append("        StringValue value) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
@@ -83,7 +83,7 @@ public  class MInternalStringSetter extends Macro{
         sb0.append("    }");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    this.field_");
+        sb0.append("    this.list_");
         sb0.append(buildName());
         sb0.append(".put(context, value);");
         sb0.append(LINE_SEPARATOR);

@@ -92,12 +92,28 @@ public class Macros{
         return mSuperDirective;
     }
     
-    public MClassInternalValue newClassInternalValue(){
-        MClassInternalValue mClassInternalValue;
+    public MClassValue newClassValue(){
+        MClassValue mClassValue;
     
-        mClassInternalValue = new MClassInternalValue(this);
+        mClassValue = new MClassValue(this);
     
-        return mClassInternalValue;
+        return mClassValue;
+    }
+    
+    public MClassMacroValue newClassMacroValue(){
+        MClassMacroValue mClassMacroValue;
+    
+        mClassMacroValue = new MClassMacroValue(this);
+    
+        return mClassMacroValue;
+    }
+    
+    public MClassStringValue newClassStringValue(){
+        MClassStringValue mClassStringValue;
+    
+        mClassStringValue = new MClassStringValue(this);
+    
+        return mClassStringValue;
     }
     
     public MClassCacheBuilder newClassCacheBuilder(){
@@ -180,44 +196,36 @@ public class Macros{
         return mConstructor;
     }
     
-    public MInitMacroInternal newInitMacroInternal(String pName){
-        MInitMacroInternal mInitMacroInternal;
+    public MInitInternal newInitInternal(String pName){
+        MInitInternal mInitInternal;
     
-        mInitMacroInternal = new MInitMacroInternal(pName, this);
+        mInitInternal = new MInitInternal(pName, this);
     
-        return mInitMacroInternal;
+        return mInitInternal;
     }
     
-    public MInitMacroParam newInitMacroParam(String pName){
-        MInitMacroParam mInitMacroParam;
+    public MInitParam newInitParam(String pName){
+        MInitParam mInitParam;
     
-        mInitMacroParam = new MInitMacroParam(pName, this);
+        mInitParam = new MInitParam(pName, this);
     
-        return mInitMacroParam;
+        return mInitParam;
     }
     
-    public MInitStringInternal newInitStringInternal(String pName){
-        MInitStringInternal mInitStringInternal;
+    public MInitMacroValue newInitMacroValue(String pParamName){
+        MInitMacroValue mInitMacroValue;
     
-        mInitStringInternal = new MInitStringInternal(pName, this);
+        mInitMacroValue = new MInitMacroValue(pParamName, this);
     
-        return mInitStringInternal;
+        return mInitMacroValue;
     }
     
-    public MInitInternalValue newInitInternalValue(String pParamName){
-        MInitInternalValue mInitInternalValue;
+    public MInitStringValue newInitStringValue(String pParamName){
+        MInitStringValue mInitStringValue;
     
-        mInitInternalValue = new MInitInternalValue(pParamName, this);
+        mInitStringValue = new MInitStringValue(pParamName, this);
     
-        return mInitInternalValue;
-    }
-    
-    public MSetParam newSetParam(String pName){
-        MSetParam mSetParam;
-    
-        mSetParam = new MSetParam(pName, this);
-    
-        return mSetParam;
+        return mInitStringValue;
     }
     
     public MSetMacrosCall newSetMacrosCall(){
@@ -236,20 +244,36 @@ public class Macros{
         return mSuperCall;
     }
     
-    public MSingleAdd newSingleAdd(String pReferencedMacroName, String pCurrentMacroName, String pParamName){
-        MSingleAdd mSingleAdd;
+    public MSingleMacroAdd newSingleMacroAdd(String pReferencedMacroName, String pParamName){
+        MSingleMacroAdd mSingleMacroAdd;
     
-        mSingleAdd = new MSingleAdd(pReferencedMacroName, pCurrentMacroName, pParamName, this);
+        mSingleMacroAdd = new MSingleMacroAdd(pReferencedMacroName, pParamName, this);
     
-        return mSingleAdd;
+        return mSingleMacroAdd;
     }
     
-    public MAddAll newAddAll(String pMacroName, String pParamName){
-        MAddAll mAddAll;
+    public MSingleStringAdd newSingleStringAdd(String pParamName){
+        MSingleStringAdd mSingleStringAdd;
     
-        mAddAll = new MAddAll(pMacroName, pParamName, this);
+        mSingleStringAdd = new MSingleStringAdd(pParamName, this);
     
-        return mAddAll;
+        return mSingleStringAdd;
+    }
+    
+    public MAddAllMacro newAddAllMacro(String pParamName){
+        MAddAllMacro mAddAllMacro;
+    
+        mAddAllMacro = new MAddAllMacro(pParamName, this);
+    
+        return mAddAllMacro;
+    }
+    
+    public MAddAllString newAddAllString(String pParamName){
+        MAddAllString mAddAllString;
+    
+        mAddAllString = new MAddAllString(pParamName, this);
+    
+        return mAddAllString;
     }
     
     public MTypeVerifier newTypeVerifier(String pParamName){
@@ -284,14 +308,6 @@ public class Macros{
         return mIsBuilt;
     }
     
-    public MParamStringRefBuilder newParamStringRefBuilder(String pName){
-        MParamStringRefBuilder mParamStringRefBuilder;
-    
-        mParamStringRefBuilder = new MParamStringRefBuilder(pName, this);
-    
-        return mParamStringRefBuilder;
-    }
-    
     public MParamMacroRefBuilder newParamMacroRefBuilder(String pName){
         MParamMacroRefBuilder mParamMacroRefBuilder;
     
@@ -316,14 +332,6 @@ public class Macros{
         return mInternalMacroSetter;
     }
     
-    public MParamStringSetter newParamStringSetter(String pName){
-        MParamStringSetter mParamStringSetter;
-    
-        mParamStringSetter = new MParamStringSetter(pName, this);
-    
-        return mParamStringSetter;
-    }
-    
     public MParamMacroRef newParamMacroRef(String pName){
         MParamMacroRef mParamMacroRef;
     
@@ -346,6 +354,30 @@ public class Macros{
         mParamStringRef = new MParamStringRef(pName, this);
     
         return mParamStringRef;
+    }
+    
+    public MParamStringRefBuilder newParamStringRefBuilder(String pName){
+        MParamStringRefBuilder mParamStringRefBuilder;
+    
+        mParamStringRefBuilder = new MParamStringRefBuilder(pName, this);
+    
+        return mParamStringRefBuilder;
+    }
+    
+    public MInternalStringRef newInternalStringRef(String pName){
+        MInternalStringRef mInternalStringRef;
+    
+        mInternalStringRef = new MInternalStringRef(pName, this);
+    
+        return mInternalStringRef;
+    }
+    
+    public MInternalStringRefBuilder newInternalStringRefBuilder(String pInternalName){
+        MInternalStringRefBuilder mInternalStringRefBuilder;
+    
+        mInternalStringRefBuilder = new MInternalStringRefBuilder(pInternalName, this);
+    
+        return mInternalStringRefBuilder;
     }
     
     public MInternalStringSetter newInternalStringSetter(String pName){
@@ -460,10 +492,10 @@ public class Macros{
         return mParamMacroField;
     }
     
-    public MParamStringField newParamStringField(String pName){
+    public MParamStringField newParamStringField(String pParamName){
         MParamStringField mParamStringField;
     
-        mParamStringField = new MParamStringField(pName, this);
+        mParamStringField = new MParamStringField(pParamName, this);
     
         return mParamStringField;
     }
@@ -492,12 +524,20 @@ public class Macros{
         return mContextField;
     }
     
-    public MInternalMacrosValueField newInternalMacrosValueField(){
-        MInternalMacrosValueField mInternalMacrosValueField;
+    public MMacroValueField newMacroValueField(){
+        MMacroValueField mMacroValueField;
     
-        mInternalMacrosValueField = new MInternalMacrosValueField(this);
+        mMacroValueField = new MMacroValueField(this);
     
-        return mInternalMacrosValueField;
+        return mMacroValueField;
+    }
+    
+    public MStringValueField newStringValueField(){
+        MStringValueField mStringValueField;
+    
+        mStringValueField = new MStringValueField(this);
+    
+        return mStringValueField;
     }
     
     public MDirectiveFields newDirectiveFields(String pParamName){

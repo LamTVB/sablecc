@@ -92,34 +92,10 @@ public  class MSetInternal extends Macro{
                 
                 
             }
-            
-            @Override
-            void setStringBuilderBuild(MStringBuilderBuild mStringBuilderBuild){
-            
-                
-                
-            }
         });
     }
     
     public void addSetParams(MParamRef macro){
-        if(macro == null){
-            throw ObjectMacroException.parameterNull("SetParams");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("SetInternal");
-        }
-        
-        if(this.getMacros() != macro.getMacros()){
-            throw ObjectMacroException.diffMacros();
-        }
-    
-        this.list_SetParams.add(macro);
-        this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
-    }
-    
-    public void addSetParams(MStringBuilderBuild macro){
         if(macro == null){
             throw ObjectMacroException.parameterNull("SetParams");
         }
@@ -220,13 +196,6 @@ public  class MSetInternal extends Macro{
             macro.apply(new InternalsInitializer("SetParams"){
                 @Override
                 void setParamRef(MParamRef mParamRef){
-                
-                    
-                    
-                }
-                
-                @Override
-                void setStringBuilderBuild(MStringBuilderBuild mStringBuilderBuild){
                 
                     
                     

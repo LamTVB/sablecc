@@ -4,33 +4,35 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MInitInternalValue extends Macro{
+public  class MMacroValueField extends Macro{
     
-    String field_ParamName;
+    private Map<Context, String> field_ParamName = new LinkedHashMap<>();
     
-    MInitInternalValue(String pParamName, Macros macros){
+    MMacroValueField(Macros macros){
         
         
         this.setMacros(macros);
-        this.setPParamName(pParamName);
     }
     
-    private void setPParamName( String pParamName ){
-        if(pParamName == null){
-            throw ObjectMacroException.parameterNull("ParamName");
+    void setParamName(
+            Context context,
+            String value) {
+    
+        if(value == null){
+            throw new RuntimeException("value cannot be null here");
         }
     
-        this.field_ParamName = pParamName;
+        this.field_ParamName.put(context, value);
     }
     
-    String buildParamName(){
+    String buildParamName(Context context){
     
-        return this.field_ParamName;
+        return this.field_ParamName.get(context);
     }
     
-    String getParamName(){
+    String getParamName(Context context){
     
-        return this.field_ParamName;
+        return this.field_ParamName.get(context);
     }
     
     
@@ -38,13 +40,13 @@ public  class MInitInternalValue extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setInitInternalValue(this);
+        internalsInitializer.setMacroValueField(this);
     }
     
     
-    public String build(){
+    String build(Context context){
     
-        CacheBuilder cache_builder = this.cacheBuilder;
+        CacheBuilder cache_builder = this.cacheBuilders.get(context);
     
         if(cache_builder == null){
             cache_builder = new CacheBuilder();
@@ -55,7 +57,7 @@ public  class MInitInternalValue extends Macro{
         else{
             return cache_builder.getExpansion();
         }
-        this.cacheBuilder = cache_builder;
+        this.cacheBuilders.put(context, cache_builder);
         List<String> indentations = new LinkedList<>();
         StringBuilder sbIndentation = new StringBuilder();
     
@@ -65,21 +67,12 @@ public  class MInitInternalValue extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("this.");
-        sb0.append(buildParamName());
-        sb0.append("Value = new InternalValue(this.list_");
-        sb0.append(buildParamName());
-        sb0.append(", this.");
-        sb0.append(buildParamName());
-        sb0.append("Context);");
+        sb0.append("final MacroValue ");
+        sb0.append(buildParamName(context));
+        sb0.append("Value;");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();
-    }
-    
-    @Override
-    String build(Context context) {
-        return build();
     }
     
     

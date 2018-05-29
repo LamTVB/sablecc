@@ -22,8 +22,6 @@ public  class MSwitchVersion extends Macro{
     
     private Map<Context, String> field_ClassName = new LinkedHashMap<>();
     
-    private Map<Context, InternalValue> list_Args = new LinkedHashMap<>();
-    
     MSwitchVersion(Macros macros){
         
         
@@ -103,17 +101,6 @@ public  class MSwitchVersion extends Macro{
         this.field_ClassName.put(context, value);
     }
     
-    void setArgs(
-                Context context,
-                InternalValue internal_value) {
-    
-        if(internal_value == null){
-            throw new RuntimeException("macros cannot be null");
-        }
-    
-        this.list_Args.put(context, internal_value);
-    }
-    
     private String buildVersionCases(){
         StringBuilder sb = new StringBuilder();
         Context local_context = VersionCasesContext;
@@ -154,12 +141,6 @@ public  class MSwitchVersion extends Macro{
         return this.field_ClassName.get(context);
     }
     
-    private String buildArgs(Context context){
-    
-        InternalValue macros = this.list_Args.get(context);
-        return macros.build();
-    }
-    
     private InternalValue getVersionCases(){
         return this.VersionCasesValue;
     }
@@ -167,10 +148,6 @@ public  class MSwitchVersion extends Macro{
     String getClassName(Context context){
     
         return this.field_ClassName.get(context);
-    }
-    
-    private InternalValue getArgs(Context context){
-        return this.list_Args.get(context);
     }
     private void initVersionCasesInternals(Context context){
         for(Macro macro : this.list_VersionCases){
@@ -180,7 +157,6 @@ public  class MSwitchVersion extends Macro{
                 
                     
                     mMacroCaseInit.setClassName(VersionCasesContext, getClassName(context));
-                mMacroCaseInit.setArgs(VersionCasesContext, getArgs(context));
                 }
             });
         }
@@ -223,7 +199,7 @@ public  class MSwitchVersion extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("switch(this.version)");
+        sb0.append("switch(this.version) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         StringBuilder sb1 = new StringBuilder();

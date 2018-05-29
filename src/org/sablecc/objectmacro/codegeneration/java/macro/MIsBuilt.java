@@ -6,7 +6,6 @@ import java.util.*;
 
 public  class MIsBuilt extends Macro{
     
-    private Map<Context, String> field_MacroName = new LinkedHashMap<>();
     
     MIsBuilt(Macros macros){
         
@@ -14,26 +13,8 @@ public  class MIsBuilt extends Macro{
         this.setMacros(macros);
     }
     
-    void setMacroName(
-            Context context,
-            String value) {
     
-        if(value == null){
-            throw new RuntimeException("value cannot be null here");
-        }
     
-        this.field_MacroName.put(context, value);
-    }
-    
-    String buildMacroName(Context context){
-    
-        return this.field_MacroName.get(context);
-    }
-    
-    String getMacroName(Context context){
-    
-        return this.field_MacroName.get(context);
-    }
     
     
     @Override
@@ -44,9 +25,9 @@ public  class MIsBuilt extends Macro{
     }
     
     
-    String build(Context context){
+    public String build(){
     
-        CacheBuilder cache_builder = this.cacheBuilders.get(context);
+        CacheBuilder cache_builder = this.cacheBuilder;
     
         if(cache_builder == null){
             cache_builder = new CacheBuilder();
@@ -57,7 +38,7 @@ public  class MIsBuilt extends Macro{
         else{
             return cache_builder.getExpansion();
         }
-        this.cacheBuilders.put(context, cache_builder);
+        this.cacheBuilder = cache_builder;
         List<String> indentations = new LinkedList<>();
         StringBuilder sbIndentation = new StringBuilder();
     
@@ -67,17 +48,20 @@ public  class MIsBuilt extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("if(this.cacheBuilder != null)");
+        sb0.append("if(this.cacheBuilder != null) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    throw ObjectMacroException.cannotModify(\"");
-        sb0.append(buildMacroName(context));
-        sb0.append("\");");
+        sb0.append("    throw ObjectMacroException.cannotModify(this.getClass().getSimpleName());");
         sb0.append(LINE_SEPARATOR);
         sb0.append("}");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();
+    }
+    
+    @Override
+    String build(Context context) {
+        return build();
     }
     
     

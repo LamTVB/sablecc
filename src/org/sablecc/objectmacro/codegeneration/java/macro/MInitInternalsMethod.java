@@ -199,12 +199,12 @@ public  class MInitInternalsMethod extends Macro{
     
         sb0.append("private void init");
         sb0.append(buildParamName());
-        sb0.append("Internals(Context context)");
+        sb0.append("Internals(Context context) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    for(Macro macro : this.list_");
         sb0.append(buildParamName());
-        sb0.append(")");
+        sb0.append(") ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         StringBuilder sb1 = new StringBuilder();

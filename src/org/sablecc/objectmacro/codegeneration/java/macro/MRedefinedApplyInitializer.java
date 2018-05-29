@@ -71,7 +71,7 @@ public  class MRedefinedApplyInitializer extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("void apply(");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("        InternalsInitializer internalsInitializer)");
+        sb0.append("        InternalsInitializer internalsInitializer) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);

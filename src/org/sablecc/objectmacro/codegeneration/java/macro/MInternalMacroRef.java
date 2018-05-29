@@ -65,9 +65,9 @@ public  class MInternalMacroRef extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("private InternalValue get");
+        sb0.append("private MacroValue get");
         sb0.append(buildParamName());
-        sb0.append("(Context context)");
+        sb0.append("(Context context) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    return this.list_");

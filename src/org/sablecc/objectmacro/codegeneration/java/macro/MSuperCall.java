@@ -6,17 +6,145 @@ import java.util.*;
 
 public  class MSuperCall extends Macro{
     
+    final List<Macro> list_Parameters;
+    
+    final Context ParametersContext = new Context();
+    
+    final InternalValue ParametersValue;
+    
+    private DSeparator ParametersSeparator;
+    
+    private DBeforeFirst ParametersBeforeFirst;
+    
+    private DAfterLast ParametersAfterLast;
+    
+    private DNone ParametersNone;
     
     MSuperCall(Macros macros){
         
         
         this.setMacros(macros);
+        this.list_Parameters = new LinkedList<>();
+        
+        this.ParametersValue = new InternalValue(this.list_Parameters, this.ParametersContext);
+    }
+    
+    public void addAllParameters(
+                    List<Macro> macros){
+    
+        if(macros == null){
+            throw ObjectMacroException.parameterNull("Parameters");
+        }
+        if(this.cacheBuilder != null){
+            throw ObjectMacroException.cannotModify("SuperCall");
+        }
+        
+        int i = 0;
+        
+        for(Macro macro : macros) {
+            if(macro == null) {
+                throw ObjectMacroException.macroNull(i, "Parameters");
+            }
+        
+            if(this.getMacros() != macro.getMacros()){
+                throw ObjectMacroException.diffMacros();
+            }
+        
+            this.verifyTypeParameters(macro);
+            this.list_Parameters.add(macro);
+            this.children.add(macro);
+            Macro.cycleDetector.detectCycle(this, macro);
+        
+            i++;
+        }
     }
     
     
+    void verifyTypeParameters (Macro macro) {
+        macro.apply(new InternalsInitializer("Parameters"){
+            @Override
+            void setPlainText(MPlainText mPlainText){
+            
+                
+                
+            }
+        });
+    }
     
+    public void addParameters(MPlainText macro){
+        if(macro == null){
+            throw ObjectMacroException.parameterNull("Parameters");
+        }
+        if(this.cacheBuilder != null){
+            throw ObjectMacroException.cannotModify("SuperCall");
+        }
+        
+        if(this.getMacros() != macro.getMacros()){
+            throw ObjectMacroException.diffMacros();
+        }
     
+        this.list_Parameters.add(macro);
+        this.children.add(macro);
+        Macro.cycleDetector.detectCycle(this, macro);
+    }
     
+    private String buildParameters(){
+        StringBuilder sb = new StringBuilder();
+        Context local_context = ParametersContext;
+        List<Macro> macros = this.list_Parameters;
+    
+        int i = 0;
+        int nb_macros = macros.size();
+        String expansion = null;
+    
+        if(this.ParametersNone != null){
+            sb.append(this.ParametersNone.apply(i, "", nb_macros));
+        }
+    
+        for(Macro macro : macros){
+            expansion = macro.build(local_context);
+    
+            if(this.ParametersBeforeFirst != null){
+                expansion = this.ParametersBeforeFirst.apply(i, expansion, nb_macros);
+            }
+    
+            if(this.ParametersAfterLast != null){
+                expansion = this.ParametersAfterLast.apply(i, expansion, nb_macros);
+            }
+    
+            if(this.ParametersSeparator != null){
+                expansion = this.ParametersSeparator.apply(i, expansion, nb_macros);
+            }
+    
+            sb.append(expansion);
+            i++;
+        }
+    
+        return sb.toString();
+    }
+    
+    private InternalValue getParameters(){
+        return this.ParametersValue;
+    }
+    private void initParametersInternals(Context context){
+        for(Macro macro : this.list_Parameters){
+            macro.apply(new InternalsInitializer("Parameters"){
+                @Override
+                void setPlainText(MPlainText mPlainText){
+                
+                    
+                    
+                }
+            });
+        }
+    }
+    
+    private void initParametersDirectives(){
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append(", ");
+        this.ParametersSeparator = new DSeparator(sb1.toString());
+        this.ParametersValue.setSeparator(this.ParametersSeparator);
+    }
     @Override
     void apply(
             InternalsInitializer internalsInitializer){
@@ -42,13 +170,15 @@ public  class MSuperCall extends Macro{
         List<String> indentations = new LinkedList<>();
         StringBuilder sbIndentation = new StringBuilder();
     
+        initParametersDirectives();
         
-    
-    
+        initParametersInternals(null);
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("super();");
+        sb0.append("super(");
+        sb0.append(buildParameters());
+        sb0.append(");");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();

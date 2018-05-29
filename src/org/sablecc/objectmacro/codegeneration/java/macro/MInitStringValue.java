@@ -4,33 +4,33 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MInternalMacroRefBuilder extends Macro{
+public  class MInitStringValue extends Macro{
     
-    String field_InternalName;
+    String field_ParamName;
     
-    MInternalMacroRefBuilder(String pInternalName, Macros macros){
+    MInitStringValue(String pParamName, Macros macros){
         
         
         this.setMacros(macros);
-        this.setPInternalName(pInternalName);
+        this.setPParamName(pParamName);
     }
     
-    private void setPInternalName( String pInternalName ){
-        if(pInternalName == null){
-            throw ObjectMacroException.parameterNull("InternalName");
+    private void setPParamName( String pParamName ){
+        if(pParamName == null){
+            throw ObjectMacroException.parameterNull("ParamName");
         }
     
-        this.field_InternalName = pInternalName;
+        this.field_ParamName = pParamName;
     }
     
-    String buildInternalName(){
+    String buildParamName(){
     
-        return this.field_InternalName;
+        return this.field_ParamName;
     }
     
-    String getInternalName(){
+    String getParamName(){
     
-        return this.field_InternalName;
+        return this.field_ParamName;
     }
     
     
@@ -38,7 +38,7 @@ public  class MInternalMacroRefBuilder extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setInternalMacroRefBuilder(this);
+        internalsInitializer.setInitStringValue(this);
     }
     
     
@@ -65,19 +65,13 @@ public  class MInternalMacroRefBuilder extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("private String build");
-        sb0.append(buildInternalName());
-        sb0.append("(Context context) ");
-        sb0.append("{");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    MacroValue macros = this.list_");
-        sb0.append(buildInternalName());
-        sb0.append(".get(context);");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    return macros.build();");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("}");
+        sb0.append("this.");
+        sb0.append(buildParamName());
+        sb0.append("Value = new StringValue(this.list_");
+        sb0.append(buildParamName());
+        sb0.append(", this.");
+        sb0.append(buildParamName());
+        sb0.append("Context);");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();

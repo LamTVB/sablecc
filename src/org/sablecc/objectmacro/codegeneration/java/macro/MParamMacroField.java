@@ -76,7 +76,7 @@ public  class MParamMacroField extends Macro{
         sb0.append(m1.build(null));
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        MInternalMacrosValueField m2 = this.getMacros().newInternalMacrosValueField();
+        MMacroValueField m2 = this.getMacros().newMacroValueField();
         
         m2.setParamName(null, getParamName());
         sb0.append(m2.build(null));

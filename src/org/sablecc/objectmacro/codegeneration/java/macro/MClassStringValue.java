@@ -4,7 +4,7 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MClassInternalValue extends Macro{
+public  class MClassStringValue extends Macro{
     
     final List<Macro> list_PackageDeclaration;
     
@@ -20,7 +20,7 @@ public  class MClassInternalValue extends Macro{
     
     private DNone PackageDeclarationNone;
     
-    MClassInternalValue(Macros macros){
+    MClassStringValue(Macros macros){
         
         
         this.setMacros(macros);
@@ -36,7 +36,7 @@ public  class MClassInternalValue extends Macro{
             throw ObjectMacroException.parameterNull("PackageDeclaration");
         }
         if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("ClassInternalValue");
+            throw ObjectMacroException.cannotModify("ClassStringValue");
         }
         
         int i = 0;
@@ -76,7 +76,7 @@ public  class MClassInternalValue extends Macro{
             throw ObjectMacroException.parameterNull("PackageDeclaration");
         }
         if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("ClassInternalValue");
+            throw ObjectMacroException.cannotModify("ClassStringValue");
         }
         
         if(this.getMacros() != macro.getMacros()){
@@ -149,7 +149,7 @@ public  class MClassInternalValue extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setClassInternalValue(this);
+        internalsInitializer.setClassStringValue(this);
     }
     
     
@@ -189,51 +189,35 @@ public  class MClassInternalValue extends Macro{
         sb0.append(m2.build(null));
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("class InternalValue ");
+        sb0.append("class StringValue extends Value ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    private final List<Macro> macros;");
+        sb0.append("    private final List<String> strings;");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    private DAfterLast dAfterLast;");
+        sb0.append("    StringValue(");
         sb0.append(LINE_SEPARATOR);
+        sb0.append("            List<String> strings,");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    private DBeforeFirst dBeforeFirst;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    private DSeparator dSeparator;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    private DNone dNone;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    private final Context context;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    private String cache;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    InternalValue(");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("            List<Macro> macros,");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("            Context context)");
+        sb0.append("            Context context) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("        this.macros = macros;");
+        sb0.append("        super(context);");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("        this.context = context;");
+        sb0.append("        this.strings = strings;");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    }");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    String build()");
+        sb0.append("    @Override");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("    String build() ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("        if(this.cache != null)");
+        sb0.append("        if(this.cache != null) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            return this.cache;");
@@ -245,35 +229,33 @@ public  class MClassInternalValue extends Macro{
         sb0.append(LINE_SEPARATOR);
         sb0.append("        int i = 0;");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("        int nb_macros = this.macros.size();");
+        sb0.append("        int nb_strings = this.strings.size();");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
         sb0.append("        if(this.dNone != null)");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("            sb.append(this.dNone.apply(i, \"\", nb_macros));");
+        sb0.append("            sb.append(this.dNone.apply(i, \"\", nb_strings));");
         sb0.append(LINE_SEPARATOR);
         sb0.append("        }");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("        for(Macro macro : this.macros)");
+        sb0.append("        for(String string : this.strings)");
         sb0.append("{");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("            String expansion = macro.build(this.context);");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
         sb0.append("            if(this.dBeforeFirst != null)");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("                expansion = dBeforeFirst.apply(i, expansion, nb_macros);");
+        sb0.append("                string = this.dBeforeFirst.apply(i, string, nb_strings);");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            }");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("            if(dAfterLast != null)");
+        sb0.append("            if(this.dAfterLast != null)");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("                expansion = dAfterLast.apply(i, expansion, nb_macros);");
+        sb0.append("                string = this.dAfterLast.apply(i, string, nb_strings);");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            }");
         sb0.append(LINE_SEPARATOR);
@@ -281,12 +263,12 @@ public  class MClassInternalValue extends Macro{
         sb0.append("            if(this.dSeparator != null)");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append("                expansion = dSeparator.apply(i, expansion, nb_macros);");
+        sb0.append("                string = this.dSeparator.apply(i, string, nb_strings);");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            }");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("            sb.append(expansion);");
+        sb0.append("            sb.append(string);");
         sb0.append(LINE_SEPARATOR);
         sb0.append("            i++;");
         sb0.append(LINE_SEPARATOR);
@@ -296,50 +278,6 @@ public  class MClassInternalValue extends Macro{
         sb0.append("        this.cache = sb.toString();");
         sb0.append(LINE_SEPARATOR);
         sb0.append("        return this.cache;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    }");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    void setNone(");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("                DNone none)");
-        sb0.append("{");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("        this.dNone = none;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    }");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    void setBeforeFirst(");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("            DBeforeFirst dBeforeFirst)");
-        sb0.append("{");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("        this.dBeforeFirst = dBeforeFirst;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    }");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    void setAfterLast(");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("            DAfterLast dAfterLast)");
-        sb0.append("{");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("        this.dAfterLast = dAfterLast;");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    }");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    void setSeparator(");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("            DSeparator dSeparator)");
-        sb0.append("{");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("        this.dSeparator = dSeparator;");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    }");
         sb0.append(LINE_SEPARATOR);

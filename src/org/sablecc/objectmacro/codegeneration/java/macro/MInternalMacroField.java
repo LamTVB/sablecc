@@ -65,7 +65,7 @@ public  class MInternalMacroField extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("private Map<Context, InternalValue> list_");
+        sb0.append("private Map<Context, MacroValue> list_");
         sb0.append(buildName());
         sb0.append(" = new LinkedHashMap<>();");
     

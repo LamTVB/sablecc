@@ -301,7 +301,7 @@ public  class MTypeVerifier extends Macro{
         internalsInitializer.setTypeVerifier(this);
     }
     
-
+    
     public String build(){
     
         CacheBuilder cache_builder = this.cacheBuilder;

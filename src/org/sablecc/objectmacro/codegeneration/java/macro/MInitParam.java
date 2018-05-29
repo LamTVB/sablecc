@@ -4,11 +4,11 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MInitMacroInternal extends Macro{
+public  class MInitParam extends Macro{
     
     String field_Name;
     
-    MInitMacroInternal(String pName, Macros macros){
+    MInitParam(String pName, Macros macros){
         
         
         this.setMacros(macros);
@@ -38,7 +38,7 @@ public  class MInitMacroInternal extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setInitMacroInternal(this);
+        internalsInitializer.setInitParam(this);
     }
     
     
@@ -67,7 +67,7 @@ public  class MInitMacroInternal extends Macro{
     
         sb0.append("this.list_");
         sb0.append(buildName());
-        sb0.append(" = new LinkedHashMap<>();");
+        sb0.append(" = new LinkedList<>();");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();

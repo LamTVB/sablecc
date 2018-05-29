@@ -8,20 +8,6 @@ public  class MRedefinedInternalsSetter extends Macro{
     
     String field_MacroName;
     
-    final List<Macro> list_TextParts;
-    
-    final Context TextPartsContext = new Context();
-    
-    final InternalValue TextPartsValue;
-    
-    private DSeparator TextPartsSeparator;
-    
-    private DBeforeFirst TextPartsBeforeFirst;
-    
-    private DAfterLast TextPartsAfterLast;
-    
-    private DNone TextPartsNone;
-    
     final List<Macro> list_SetInternals;
     
     final Context SetInternalsContext = new Context();
@@ -41,10 +27,8 @@ public  class MRedefinedInternalsSetter extends Macro{
         
         this.setMacros(macros);
         this.setPMacroName(pMacroName);
-        this.list_TextParts = new LinkedList<>();
         this.list_SetInternals = new LinkedList<>();
         
-        this.TextPartsValue = new InternalValue(this.list_TextParts, this.TextPartsContext);
         this.SetInternalsValue = new InternalValue(this.list_SetInternals, this.SetInternalsContext);
     }
     
@@ -54,161 +38,6 @@ public  class MRedefinedInternalsSetter extends Macro{
         }
     
         this.field_MacroName = pMacroName;
-    }
-    
-    public void addAllTextParts(
-                    List<Macro> macros){
-    
-        if(macros == null){
-            throw ObjectMacroException.parameterNull("TextParts");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("RedefinedInternalsSetter");
-        }
-        
-        int i = 0;
-        
-        for(Macro macro : macros) {
-            if(macro == null) {
-                throw ObjectMacroException.macroNull(i, "TextParts");
-            }
-        
-            if(this.getMacros() != macro.getMacros()){
-                throw ObjectMacroException.diffMacros();
-            }
-        
-            this.verifyTypeTextParts(macro);
-            this.list_TextParts.add(macro);
-            this.children.add(macro);
-            Macro.cycleDetector.detectCycle(this, macro);
-        
-            i++;
-        }
-    }
-    
-    
-    void verifyTypeTextParts (Macro macro) {
-        macro.apply(new InternalsInitializer("TextParts"){
-            @Override
-            void setInitStringBuilder(MInitStringBuilder mInitStringBuilder){
-            
-                
-                
-            }
-            
-            @Override
-            void setStringPart(MStringPart mStringPart){
-            
-                
-                
-            }
-            
-            @Override
-            void setParamInsertPart(MParamInsertPart mParamInsertPart){
-            
-                
-                
-            }
-            
-            @Override
-            void setEolPart(MEolPart mEolPart){
-            
-                
-                
-            }
-            
-            @Override
-            void setInsertMacroPart(MInsertMacroPart mInsertMacroPart){
-            
-                
-                
-            }
-        });
-    }
-    
-    public void addTextParts(MInitStringBuilder macro){
-        if(macro == null){
-            throw ObjectMacroException.parameterNull("TextParts");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("RedefinedInternalsSetter");
-        }
-        
-        if(this.getMacros() != macro.getMacros()){
-            throw ObjectMacroException.diffMacros();
-        }
-    
-        this.list_TextParts.add(macro);
-        this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
-    }
-    
-    public void addTextParts(MStringPart macro){
-        if(macro == null){
-            throw ObjectMacroException.parameterNull("TextParts");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("RedefinedInternalsSetter");
-        }
-        
-        if(this.getMacros() != macro.getMacros()){
-            throw ObjectMacroException.diffMacros();
-        }
-    
-        this.list_TextParts.add(macro);
-        this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
-    }
-    
-    public void addTextParts(MParamInsertPart macro){
-        if(macro == null){
-            throw ObjectMacroException.parameterNull("TextParts");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("RedefinedInternalsSetter");
-        }
-        
-        if(this.getMacros() != macro.getMacros()){
-            throw ObjectMacroException.diffMacros();
-        }
-    
-        this.list_TextParts.add(macro);
-        this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
-    }
-    
-    public void addTextParts(MEolPart macro){
-        if(macro == null){
-            throw ObjectMacroException.parameterNull("TextParts");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("RedefinedInternalsSetter");
-        }
-        
-        if(this.getMacros() != macro.getMacros()){
-            throw ObjectMacroException.diffMacros();
-        }
-    
-        this.list_TextParts.add(macro);
-        this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
-    }
-    
-    public void addTextParts(MInsertMacroPart macro){
-        if(macro == null){
-            throw ObjectMacroException.parameterNull("TextParts");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("RedefinedInternalsSetter");
-        }
-        
-        if(this.getMacros() != macro.getMacros()){
-            throw ObjectMacroException.diffMacros();
-        }
-    
-        this.list_TextParts.add(macro);
-        this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
     }
     
     public void addAllSetInternals(
@@ -275,41 +104,6 @@ public  class MRedefinedInternalsSetter extends Macro{
         return this.field_MacroName;
     }
     
-    private String buildTextParts(){
-        StringBuilder sb = new StringBuilder();
-        Context local_context = TextPartsContext;
-        List<Macro> macros = this.list_TextParts;
-    
-        int i = 0;
-        int nb_macros = macros.size();
-        String expansion = null;
-    
-        if(this.TextPartsNone != null){
-            sb.append(this.TextPartsNone.apply(i, "", nb_macros));
-        }
-    
-        for(Macro macro : macros){
-            expansion = macro.build(local_context);
-    
-            if(this.TextPartsBeforeFirst != null){
-                expansion = this.TextPartsBeforeFirst.apply(i, expansion, nb_macros);
-            }
-    
-            if(this.TextPartsAfterLast != null){
-                expansion = this.TextPartsAfterLast.apply(i, expansion, nb_macros);
-            }
-    
-            if(this.TextPartsSeparator != null){
-                expansion = this.TextPartsSeparator.apply(i, expansion, nb_macros);
-            }
-    
-            sb.append(expansion);
-            i++;
-        }
-    
-        return sb.toString();
-    }
-    
     private String buildSetInternals(){
         StringBuilder sb = new StringBuilder();
         Context local_context = SetInternalsContext;
@@ -350,54 +144,9 @@ public  class MRedefinedInternalsSetter extends Macro{
         return this.field_MacroName;
     }
     
-    private InternalValue getTextParts(){
-        return this.TextPartsValue;
-    }
-    
     private InternalValue getSetInternals(){
         return this.SetInternalsValue;
     }
-    private void initTextPartsInternals(Context context){
-        for(Macro macro : this.list_TextParts){
-            macro.apply(new InternalsInitializer("TextParts"){
-                @Override
-                void setInitStringBuilder(MInitStringBuilder mInitStringBuilder){
-                
-                    
-                    
-                }
-                
-                @Override
-                void setStringPart(MStringPart mStringPart){
-                
-                    
-                    
-                }
-                
-                @Override
-                void setParamInsertPart(MParamInsertPart mParamInsertPart){
-                
-                    
-                    
-                }
-                
-                @Override
-                void setEolPart(MEolPart mEolPart){
-                
-                    
-                    
-                }
-                
-                @Override
-                void setInsertMacroPart(MInsertMacroPart mInsertMacroPart){
-                
-                    
-                    
-                }
-            });
-        }
-    }
-    
     private void initSetInternalsInternals(Context context){
         for(Macro macro : this.list_SetInternals){
             macro.apply(new InternalsInitializer("SetInternals"){
@@ -409,13 +158,6 @@ public  class MRedefinedInternalsSetter extends Macro{
                 }
             });
         }
-    }
-    
-    private void initTextPartsDirectives(){
-        StringBuilder sb1 = new StringBuilder();
-        sb1.append(LINE_SEPARATOR);
-        this.TextPartsSeparator = new DSeparator(sb1.toString());
-        this.TextPartsValue.setSeparator(this.TextPartsSeparator);
     }
     
     private void initSetInternalsDirectives(){
@@ -449,10 +191,8 @@ public  class MRedefinedInternalsSetter extends Macro{
         List<String> indentations = new LinkedList<>();
         StringBuilder sbIndentation = new StringBuilder();
     
-        initTextPartsDirectives();
         initSetInternalsDirectives();
         
-        initTextPartsInternals(null);
         initSetInternalsInternals(null);
     
         StringBuilder sb0 = new StringBuilder();
@@ -468,12 +208,12 @@ public  class MRedefinedInternalsSetter extends Macro{
         sb0.append(")");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    ");
-        sb0.append(buildTextParts());
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    ");
-        sb0.append(buildSetInternals());
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        sb2.append("    ");
+        indentations.add(sb2.toString());
+        sb1.append(buildSetInternals());
+        sb0.append(applyIndent(sb1.toString(), indentations.remove(indentations.size() - 1)));
         sb0.append(LINE_SEPARATOR);
         sb0.append("}");
     

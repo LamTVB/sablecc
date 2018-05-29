@@ -65,9 +65,9 @@ public  class MParamMacroRef extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("private InternalValue get");
+        sb0.append("MacroValue get");
         sb0.append(buildName());
-        sb0.append("()");
+        sb0.append("() ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    return this.");

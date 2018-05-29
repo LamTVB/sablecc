@@ -69,7 +69,7 @@ public  class MFactoryComparison extends Macro{
     
         sb0.append("if(this.getMacros() != ");
         sb0.append(buildVarName(context));
-        sb0.append(".getMacros())");
+        sb0.append(".getMacros()) ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    throw ObjectMacroException.diffMacros();");

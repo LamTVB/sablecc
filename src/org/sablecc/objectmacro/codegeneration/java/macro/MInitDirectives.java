@@ -196,7 +196,7 @@ public  class MInitDirectives extends Macro{
     
         sb0.append("private void init");
         sb0.append(buildParamName());
-        sb0.append("Directives()");
+        sb0.append("Directives() ");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         StringBuilder sb1 = new StringBuilder();

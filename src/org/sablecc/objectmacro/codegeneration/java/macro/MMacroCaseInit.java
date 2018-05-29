@@ -12,8 +12,6 @@ public  class MMacroCaseInit extends Macro{
     
     private Map<Context, String> field_ClassName = new LinkedHashMap<>();
     
-    private Map<Context, InternalValue> list_Args = new LinkedHashMap<>();
-    
     MMacroCaseInit(String pVersion, String pVersionClassName, Macros macros){
         
         
@@ -49,17 +47,6 @@ public  class MMacroCaseInit extends Macro{
         this.field_ClassName.put(context, value);
     }
     
-    void setArgs(
-                Context context,
-                InternalValue internal_value) {
-    
-        if(internal_value == null){
-            throw new RuntimeException("macros cannot be null");
-        }
-    
-        this.list_Args.put(context, internal_value);
-    }
-    
     String buildVersion(){
     
         return this.field_Version;
@@ -75,12 +62,6 @@ public  class MMacroCaseInit extends Macro{
         return this.field_ClassName.get(context);
     }
     
-    private String buildArgs(Context context){
-    
-        InternalValue macros = this.list_Args.get(context);
-        return macros.build();
-    }
-    
     String getVersion(){
     
         return this.field_Version;
@@ -94,10 +75,6 @@ public  class MMacroCaseInit extends Macro{
     String getClassName(Context context){
     
         return this.field_ClassName.get(context);
-    }
-    
-    private InternalValue getArgs(Context context){
-        return this.list_Args.get(context);
     }
     
     
@@ -140,9 +117,7 @@ public  class MMacroCaseInit extends Macro{
         sb0.append(buildClassName(context));
         sb0.append(" = new M");
         sb0.append(buildVersionClassName());
-        sb0.append("(");
-        sb0.append(buildArgs(context));
-        sb0.append(" this);");
+        sb0.append("(this);");
         sb0.append(LINE_SEPARATOR);
         sb0.append("    break;");
     

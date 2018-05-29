@@ -4,33 +4,33 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MInitStringInternal extends Macro{
+public  class MInternalStringRefBuilder extends Macro{
     
-    String field_Name;
+    String field_InternalName;
     
-    MInitStringInternal(String pName, Macros macros){
+    MInternalStringRefBuilder(String pInternalName, Macros macros){
         
         
         this.setMacros(macros);
-        this.setPName(pName);
+        this.setPInternalName(pInternalName);
     }
     
-    private void setPName( String pName ){
-        if(pName == null){
-            throw ObjectMacroException.parameterNull("Name");
+    private void setPInternalName( String pInternalName ){
+        if(pInternalName == null){
+            throw ObjectMacroException.parameterNull("InternalName");
         }
     
-        this.field_Name = pName;
+        this.field_InternalName = pInternalName;
     }
     
-    String buildName(){
+    String buildInternalName(){
     
-        return this.field_Name;
+        return this.field_InternalName;
     }
     
-    String getName(){
+    String getInternalName(){
     
-        return this.field_Name;
+        return this.field_InternalName;
     }
     
     
@@ -38,7 +38,7 @@ public  class MInitStringInternal extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setInitStringInternal(this);
+        internalsInitializer.setInternalStringRefBuilder(this);
     }
     
     
@@ -65,9 +65,19 @@ public  class MInitStringInternal extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("this.field_");
-        sb0.append(buildName());
-        sb0.append(" = new LinkedHashMap<>();");
+        sb0.append("private String build");
+        sb0.append(buildInternalName());
+        sb0.append("(Context context) ");
+        sb0.append("{");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("    StringValue stringValue = this.list_");
+        sb0.append(buildInternalName());
+        sb0.append(".get(context);");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("    return stringValue.build();");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append("}");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();

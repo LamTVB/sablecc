@@ -6,31 +6,31 @@ import java.util.*;
 
 public  class MParamStringField extends Macro{
     
-    String field_Name;
+    String field_ParamName;
     
-    MParamStringField(String pName, Macros macros){
+    MParamStringField(String pParamName, Macros macros){
         
         
         this.setMacros(macros);
-        this.setPName(pName);
+        this.setPParamName(pParamName);
     }
     
-    private void setPName( String pName ){
-        if(pName == null){
-            throw ObjectMacroException.parameterNull("Name");
+    private void setPParamName( String pParamName ){
+        if(pParamName == null){
+            throw ObjectMacroException.parameterNull("ParamName");
         }
     
-        this.field_Name = pName;
+        this.field_ParamName = pParamName;
     }
     
-    String buildName(){
+    String buildParamName(){
     
-        return this.field_Name;
+        return this.field_ParamName;
     }
     
-    String getName(){
+    String getParamName(){
     
-        return this.field_Name;
+        return this.field_ParamName;
     }
     
     
@@ -65,9 +65,21 @@ public  class MParamStringField extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("String field_");
-        sb0.append(buildName());
+        sb0.append("final List<String> list_");
+        sb0.append(buildParamName());
         sb0.append(";");
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        MContextField m1 = this.getMacros().newContextField();
+        
+        m1.setParamName(null, getParamName());
+        sb0.append(m1.build(null));
+        sb0.append(LINE_SEPARATOR);
+        sb0.append(LINE_SEPARATOR);
+        MStringValueField m2 = this.getMacros().newStringValueField();
+        
+        m2.setParamName(null, getParamName());
+        sb0.append(m2.build(null));
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();

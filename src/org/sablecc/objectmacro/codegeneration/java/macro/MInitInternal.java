@@ -4,33 +4,33 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MInternalMacroRefBuilder extends Macro{
+public  class MInitInternal extends Macro{
     
-    String field_InternalName;
+    String field_Name;
     
-    MInternalMacroRefBuilder(String pInternalName, Macros macros){
+    MInitInternal(String pName, Macros macros){
         
         
         this.setMacros(macros);
-        this.setPInternalName(pInternalName);
+        this.setPName(pName);
     }
     
-    private void setPInternalName( String pInternalName ){
-        if(pInternalName == null){
-            throw ObjectMacroException.parameterNull("InternalName");
+    private void setPName( String pName ){
+        if(pName == null){
+            throw ObjectMacroException.parameterNull("Name");
         }
     
-        this.field_InternalName = pInternalName;
+        this.field_Name = pName;
     }
     
-    String buildInternalName(){
+    String buildName(){
     
-        return this.field_InternalName;
+        return this.field_Name;
     }
     
-    String getInternalName(){
+    String getName(){
     
-        return this.field_InternalName;
+        return this.field_Name;
     }
     
     
@@ -38,7 +38,7 @@ public  class MInternalMacroRefBuilder extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setInternalMacroRefBuilder(this);
+        internalsInitializer.setInitInternal(this);
     }
     
     
@@ -65,19 +65,9 @@ public  class MInternalMacroRefBuilder extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("private String build");
-        sb0.append(buildInternalName());
-        sb0.append("(Context context) ");
-        sb0.append("{");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    MacroValue macros = this.list_");
-        sb0.append(buildInternalName());
-        sb0.append(".get(context);");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("    return macros.build();");
-        sb0.append(LINE_SEPARATOR);
-        sb0.append("}");
+        sb0.append("this.list_");
+        sb0.append(buildName());
+        sb0.append(" = new LinkedHashMap<>();");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();
