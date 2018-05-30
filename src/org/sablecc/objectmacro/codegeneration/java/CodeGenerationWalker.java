@@ -400,7 +400,6 @@ public class CodeGenerationWalker
         }
         else {
             this.currentMacroToBuild.addPublic(this.factory.newPublic());
-            this.currentConstructor.addPublic(this.factory.newPublic());
         }
 
         if (this.currentMacroHasInternals) {
@@ -718,7 +717,36 @@ public class CodeGenerationWalker
 
                 if(node.getArgs() != null){
                     for(PValue value : node.getArgs()){
-                        mRedefinedInternalsSetter.addAllSetInternals(evalMacros(value));
+                        List<Macro> macros_found = evalMacros(value);
+
+                        for(Macro macro : macros_found){
+                            if(macro instanceof MEolPart){
+                                mRedefinedInternalsSetter.addTextParts((MEolPart) macro);
+                            }
+                            else if(macro instanceof MInsertMacroPart){
+                                MInsertMacroPart macro_part = (MInsertMacroPart) macro;
+                                mRedefinedInternalsSetter.addTextParts(macro_part);
+                                macro_part.addEnclosingClassName(this.factory.newPlainText(this.currentMacro.getName()));
+                            }
+                            else if(macro instanceof MInitStringBuilder){
+                                mRedefinedInternalsSetter.addTextParts((MInitStringBuilder) macro);
+                            }
+                            else if(macro instanceof MStringPart){
+                                mRedefinedInternalsSetter.addTextParts((MStringPart) macro);
+                            }
+                            else if(macro instanceof MParamInsertPart){
+                                mRedefinedInternalsSetter.addTextParts((MParamInsertPart) macro);
+                            }
+                            else if(macro instanceof MNewStringValue) {
+                                mRedefinedInternalsSetter.addSingleStringElements((MNewStringValue) macro);
+                            }
+                            else if(macro instanceof MSetInternal) {
+                                mRedefinedInternalsSetter.addSetInternals((MSetInternal) macro);
+                            }
+                            else{
+                                throw new InternalException("case unhandled");
+                            }
+                        }
                     }
                 }
             }
@@ -747,7 +775,6 @@ public class CodeGenerationWalker
 
         String context_name = String.valueOf(this.currentContextName);
 
-
         do{
             this.indexBuilder++;
         }
@@ -755,20 +782,22 @@ public class CodeGenerationWalker
 
         this.previouslyUsed.add(this.indexBuilder);
         this.createdBuilders.add(this.indexBuilder);
-//        this.tempMacros.add(this.factory.newInitStringBuilder(this.indexBuilder.toString()));
-//
-//        for (PTextPart part : node.getParts()) {
-//            part.apply(this);
-//        }
+        this.tempMacros.add(this.factory.newInitStringBuilder(this.indexBuilder.toString()));
+
+        for (PTextPart part : node.getParts()) {
+            part.apply(this);
+        }
 
         this.indexBuilder = this.previouslyUsed
                 .remove(this.previouslyUsed.size() - 1);
 
-//        MSetInternal mSetInternal = this.factory.newSetInternal(
-//                GenerationUtils.buildNameCamelCase(node.getParamName()),
-//                context_name);
-//        this.tempMacros.add(mSetInternal);
-//        mSetInternal.addSetParams(this.factory.newStringBuilderBuild(this.indexBuilder.toString()));
+        this.tempMacros.add(this.factory.newNewStringValue(this.indexBuilder.toString()));
+
+        MSetInternal mSetInternal = this.factory.newSetInternal(
+                GenerationUtils.buildNameCamelCase(node.getParamName()),
+                context_name);
+        this.tempMacros.add(mSetInternal);
+        mSetInternal.addSetParams(this.factory.newStringValueArg(this.indexBuilder.toString()));
     }
 
     @Override
@@ -836,7 +865,31 @@ public class CodeGenerationWalker
         this.currentContextName = null;
         List<Macro> temp = this.tempMacros;
 
-        mInsertMacroPart.addAllSetInternals(evalMacros(node.getMacroRef()));
+        List<Macro> macros_found = evalMacros(node.getMacroRef());
+
+        for(Macro macro : macros_found) {
+            if(macro instanceof MEolPart) {
+                mInsertMacroPart.addMacroBodyParts((MEolPart) macro);
+            }
+            else if(macro instanceof MInsertMacroPart) {
+                mInsertMacroPart.addMacroBodyParts((MInsertMacroPart) macro);
+            }
+            else if(macro instanceof MInitStringBuilder) {
+                mInsertMacroPart.addMacroBodyParts((MInitStringBuilder) macro);
+            }
+            else if(macro instanceof MStringPart) {
+                mInsertMacroPart.addMacroBodyParts((MStringPart) macro);
+            }
+            else if(macro instanceof MParamInsertPart) {
+                mInsertMacroPart.addMacroBodyParts((MParamInsertPart) macro);
+            }
+            else if(macro instanceof MSetInternal) {
+                mInsertMacroPart.addSetInternals((MSetInternal) macro);
+            }
+            else{
+                throw new InternalException("case unhandled");
+            }
+        }
 
         this.tempMacros = temp;
         this.indexBuilder = this.previouslyUsed
@@ -948,7 +1001,34 @@ public class CodeGenerationWalker
         Integer tempIndexBuilder = this.indexBuilder;
         Integer tempIndexInsert = this.indexInsert;
 
-        mInsertMacroPart.addAllSetInternals(evalMacros(node.getMacroRef()));
+        List<Macro> macros_found = evalMacros(node.getMacroRef());
+
+        for(Macro macro : macros_found){
+            if(macro instanceof MEolPart){
+                mInsertMacroPart.addMacroBodyParts((MEolPart) macro);
+            }
+            else if(macro instanceof MInsertMacroPart){
+                mInsertMacroPart.addMacroBodyParts((MInsertMacroPart) macro);
+            }
+            else if(macro instanceof MInitStringBuilder){
+                mInsertMacroPart.addMacroBodyParts((MInitStringBuilder) macro);
+            }
+            else if(macro instanceof MStringPart){
+                mInsertMacroPart.addMacroBodyParts((MStringPart) macro);
+            }
+            else if(macro instanceof MParamInsertPart){
+                mInsertMacroPart.addMacroBodyParts((MParamInsertPart) macro);
+            }
+            else if(macro instanceof MSetInternal) {
+                mInsertMacroPart.addSetInternals((MSetInternal) macro);
+            }
+            else if(macro instanceof MNewStringValue) {
+                mInsertMacroPart.addSingleElementLists((MNewStringValue) macro);
+            }
+            else{
+                throw new InternalException("case unhandled");
+            }
+        }
 
         this.indexInsert = tempIndexInsert;
         this.indexBuilder = tempIndexBuilder;

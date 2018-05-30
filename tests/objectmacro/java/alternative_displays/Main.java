@@ -10,12 +10,11 @@ public class Main {
     public static void main(
             String[] args){
 
-        Macros m = new Macros(VERSIONS.JAVA5);
+        Macros m = new Macros();
 
         MClass mClass = m.newClass();
         mClass.addName("maClasse");
         MFor mFor = m.newFor();
-        mFor.addTest("test");
         mFor.addClassName("String");
         mFor.addParameterName("strings");
 

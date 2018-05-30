@@ -4,11 +4,11 @@ package org.sablecc.objectmacro.codegeneration.java.macro;
 
 import java.util.*;
 
-public  class MStringBuilderBuild extends Macro{
+public  class MNewStringValue extends Macro{
     
     String field_IndexBuilder;
     
-    MStringBuilderBuild(String pIndexBuilder, Macros macros){
+    MNewStringValue(String pIndexBuilder, Macros macros){
         
         
         this.setMacros(macros);
@@ -38,7 +38,7 @@ public  class MStringBuilderBuild extends Macro{
     void apply(
             InternalsInitializer internalsInitializer){
     
-        internalsInitializer.setStringBuilderBuild(this);
+        internalsInitializer.setNewStringValue(this);
     }
     
     
@@ -65,9 +65,11 @@ public  class MStringBuilderBuild extends Macro{
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append("sb");
+        sb0.append("StringValue value");
         sb0.append(buildIndexBuilder());
-        sb0.append(".toString()");
+        sb0.append(" = new StringValue(new ArrayList<>(Collections.singletonList(sb");
+        sb0.append(buildIndexBuilder());
+        sb0.append(".toString())), null);");
     
         cache_builder.setExpansion(sb0.toString());
         return sb0.toString();

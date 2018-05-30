@@ -596,10 +596,10 @@ public class Macros{
         return mIndentPart;
     }
     
-    public MInsertMacroPart newInsertMacroPart(String pName, String pIndexBuilder, String pIndexInsert){
+    public MInsertMacroPart newInsertMacroPart(String pReferencedMacroName, String pIndexBuilder, String pIndexInsert){
         MInsertMacroPart mInsertMacroPart;
     
-        mInsertMacroPart = new MInsertMacroPart(pName, pIndexBuilder, pIndexInsert, this);
+        mInsertMacroPart = new MInsertMacroPart(pReferencedMacroName, pIndexBuilder, pIndexInsert, this);
     
         return mInsertMacroPart;
     }
@@ -620,12 +620,12 @@ public class Macros{
         return mSetInternal;
     }
     
-    public MStringBuilderBuild newStringBuilderBuild(String pIndexBuilder){
-        MStringBuilderBuild mStringBuilderBuild;
+    public MNewStringValue newNewStringValue(String pIndexBuilder){
+        MNewStringValue mNewStringValue;
     
-        mStringBuilderBuild = new MStringBuilderBuild(pIndexBuilder, this);
+        mNewStringValue = new MNewStringValue(pIndexBuilder, this);
     
-        return mStringBuilderBuild;
+        return mNewStringValue;
     }
     
     public MParamRef newParamRef(String pName){
@@ -642,6 +642,14 @@ public class Macros{
         mAddIndent = new MAddIndent(pIndexBuilder, this);
     
         return mAddIndent;
+    }
+    
+    public MStringValueArg newStringValueArg(String pIndex){
+        MStringValueArg mStringValueArg;
+    
+        mStringValueArg = new MStringValueArg(pIndex, this);
+    
+        return mStringValueArg;
     }
     
     public MStringValue newStringValue(String pString){

@@ -62,20 +62,6 @@ public  class MConstructor extends Macro{
     
     private DNone SuperNone;
     
-    final List<Macro> list_Public;
-    
-    final Context PublicContext = new Context();
-    
-    final InternalValue PublicValue;
-    
-    private DSeparator PublicSeparator;
-    
-    private DBeforeFirst PublicBeforeFirst;
-    
-    private DAfterLast PublicAfterLast;
-    
-    private DNone PublicNone;
-    
     private Map<Context, String> field_ClassName = new LinkedHashMap<>();
     
     MConstructor(Macros macros){
@@ -86,13 +72,11 @@ public  class MConstructor extends Macro{
         this.list_Parameters = new LinkedList<>();
         this.list_ValuesInitializers = new LinkedList<>();
         this.list_Super = new LinkedList<>();
-        this.list_Public = new LinkedList<>();
         
         this.FieldInitializersValue = new InternalValue(this.list_FieldInitializers, this.FieldInitializersContext);
         this.ParametersValue = new InternalValue(this.list_Parameters, this.ParametersContext);
         this.ValuesInitializersValue = new InternalValue(this.list_ValuesInitializers, this.ValuesInitializersContext);
         this.SuperValue = new InternalValue(this.list_Super, this.SuperContext);
-        this.PublicValue = new InternalValue(this.list_Public, this.PublicContext);
     }
     
     public void addAllFieldInitializers(
@@ -403,65 +387,6 @@ public  class MConstructor extends Macro{
         Macro.cycleDetector.detectCycle(this, macro);
     }
     
-    public void addAllPublic(
-                    List<Macro> macros){
-    
-        if(macros == null){
-            throw ObjectMacroException.parameterNull("Public");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("Constructor");
-        }
-        
-        int i = 0;
-        
-        for(Macro macro : macros) {
-            if(macro == null) {
-                throw ObjectMacroException.macroNull(i, "Public");
-            }
-        
-            if(this.getMacros() != macro.getMacros()){
-                throw ObjectMacroException.diffMacros();
-            }
-        
-            this.verifyTypePublic(macro);
-            this.list_Public.add(macro);
-            this.children.add(macro);
-            Macro.cycleDetector.detectCycle(this, macro);
-        
-            i++;
-        }
-    }
-    
-    
-    void verifyTypePublic (Macro macro) {
-        macro.apply(new InternalsInitializer("Public"){
-            @Override
-            void setPublic(MPublic mPublic){
-            
-                
-                
-            }
-        });
-    }
-    
-    public void addPublic(MPublic macro){
-        if(macro == null){
-            throw ObjectMacroException.parameterNull("Public");
-        }
-        if(this.cacheBuilder != null){
-            throw ObjectMacroException.cannotModify("Constructor");
-        }
-        
-        if(this.getMacros() != macro.getMacros()){
-            throw ObjectMacroException.diffMacros();
-        }
-    
-        this.list_Public.add(macro);
-        this.children.add(macro);
-        Macro.cycleDetector.detectCycle(this, macro);
-    }
-    
     void setClassName(
             Context context,
             String value) {
@@ -613,41 +538,6 @@ public  class MConstructor extends Macro{
         return sb.toString();
     }
     
-    private String buildPublic(){
-        StringBuilder sb = new StringBuilder();
-        Context local_context = PublicContext;
-        List<Macro> macros = this.list_Public;
-    
-        int i = 0;
-        int nb_macros = macros.size();
-        String expansion = null;
-    
-        if(this.PublicNone != null){
-            sb.append(this.PublicNone.apply(i, "", nb_macros));
-        }
-    
-        for(Macro macro : macros){
-            expansion = macro.build(local_context);
-    
-            if(this.PublicBeforeFirst != null){
-                expansion = this.PublicBeforeFirst.apply(i, expansion, nb_macros);
-            }
-    
-            if(this.PublicAfterLast != null){
-                expansion = this.PublicAfterLast.apply(i, expansion, nb_macros);
-            }
-    
-            if(this.PublicSeparator != null){
-                expansion = this.PublicSeparator.apply(i, expansion, nb_macros);
-            }
-    
-            sb.append(expansion);
-            i++;
-        }
-    
-        return sb.toString();
-    }
-    
     String buildClassName(Context context){
     
         return this.field_ClassName.get(context);
@@ -667,10 +557,6 @@ public  class MConstructor extends Macro{
     
     private InternalValue getSuper(){
         return this.SuperValue;
-    }
-    
-    private InternalValue getPublic(){
-        return this.PublicValue;
     }
     
     String getClassName(Context context){
@@ -752,19 +638,6 @@ public  class MConstructor extends Macro{
         }
     }
     
-    private void initPublicInternals(Context context){
-        for(Macro macro : this.list_Public){
-            macro.apply(new InternalsInitializer("Public"){
-                @Override
-                void setPublic(MPublic mPublic){
-                
-                    
-                    
-                }
-            });
-        }
-    }
-    
     private void initFieldInitializersDirectives(){
         StringBuilder sb1 = new StringBuilder();
         sb1.append(LINE_SEPARATOR);
@@ -795,13 +668,6 @@ public  class MConstructor extends Macro{
         this.SuperBeforeFirst = new DBeforeFirst(sb1.toString());
         this.SuperValue.setBeforeFirst(this.SuperBeforeFirst);
     }
-    
-    private void initPublicDirectives(){
-        StringBuilder sb1 = new StringBuilder();
-        sb1.append(" ");
-        this.PublicAfterLast = new DAfterLast(sb1.toString());
-        this.PublicValue.setAfterLast(this.PublicAfterLast);
-    }
     @Override
     void apply(
             InternalsInitializer internalsInitializer){
@@ -831,17 +697,14 @@ public  class MConstructor extends Macro{
         initParametersDirectives();
         initValuesInitializersDirectives();
         initSuperDirectives();
-        initPublicDirectives();
         
         initFieldInitializersInternals(context);
         initParametersInternals(context);
         initValuesInitializersInternals(context);
         initSuperInternals(context);
-        initPublicInternals(context);
     
         StringBuilder sb0 = new StringBuilder();
     
-        sb0.append(buildPublic());
         sb0.append("M");
         sb0.append(buildClassName(context));
         sb0.append("(");

@@ -75,7 +75,7 @@ public  class MInternalMacroSetter extends Macro{
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append(LINE_SEPARATOR);
-        sb0.append("    if(internal_value == null)");
+        sb0.append("    if(macro_value == null)");
         sb0.append("{");
         sb0.append(LINE_SEPARATOR);
         sb0.append("        throw new RuntimeException(\"macros cannot be null\");");

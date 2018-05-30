@@ -643,11 +643,10 @@ Macro constructor
         parameters: macros_param("macros");
         values_initializers: init_macro_value, init_string_value, before_first="\n", separator="\n";
         super: super_call, before_first="\n";
-        public: public, after_last=" ";
     Internal
         class_name: String;
 {Body}
-{public}M{class_name}({parameters}){
+M{class_name}({parameters}){
 {Indent: "\t"}
 {super}
 {field_initializers}
@@ -930,7 +929,7 @@ void set{param_name}(
             Context context,
             MacroValue macro_value) {
 
-    if(internal_value == null){
+    if(macro_value == null){
         throw new RuntimeException("macros cannot be null");
     }
 
@@ -1339,11 +1338,15 @@ macro.apply(new InternalsInitializer("{param_name}"){
 Macro redefined_internals_setter
     Param
         macro_name: String;
+        text_parts: init_string_builder, string_part, param_insert_part, eol_part, insert_macro_part, separator="\n";
+        single_string_elements: new_string_value, separator="\n";
         set_internals: set_internal(macro_name), separator="\n";
 {Body}
 @Override
 void set{macro_name}(M{macro_name} m{macro_name}){
 {Indent: "\t"}
+{text_parts}
+{single_string_elements}
 {set_internals}
 {End}
 }
@@ -1397,12 +1400,17 @@ sb{index_builder}.append(applyIndent(sb{index_indent}.toString(), indentations.r
 
 Macro insert_macro_part
     Param
-        name: String;
+        referenced_macro_name: String;
+        enclosing_class_name: plain_text, after_last=".", before_first="M";
         index_builder: String;
         index_insert: String;
+        macro_body_parts: init_string_builder, string_part, param_insert_part, eol_part, insert_macro_part, separator="\n";
         set_internals: set_internal(index_insert), separator="\n";
+        single_element_lists: new_string_value, separator="\n";
 {Body}
-M{name} m{index_insert} = this.getMacros().new{name}();
+M{referenced_macro_name} m{index_insert} = {enclosing_class_name}this.getMacros().new{referenced_macro_name}();
+{macro_body_parts}
+{single_element_lists}
 {set_internals}
 sb{index_builder}.append(m{index_insert}.build(null));
 {End}
@@ -1422,20 +1430,20 @@ Macro set_internal
     Param
         param_name: String;
         context: String;
-        set_params: param_ref;
+        set_params: param_ref, string_value_arg;
     Internal
         var_name: String;
 {Body}
 m{var_name}.set{param_name}({context}, {set_params});
 {End}
 
-# ========== string_builder_build ==========
+# ========== new_string_value ==========
 
-Macro string_builder_build
+Macro new_string_value
     Param
         index_builder: String;
 {Body}
-sb{index_builder}.toString()
+StringValue value{index_builder} = new StringValue(new ArrayList<>(Collections.singletonList(sb{index_builder}.toString())), null);
 {End}
 
 # =========== param_ref ===========
@@ -1463,6 +1471,15 @@ indentations.add(sb{index_builder}.toString());
 # ===================================================
 # ===================== OTHER =======================
 # ===================================================
+
+# ========== string_value_arg =======
+
+Macro string_value_arg
+    Param
+        index: String;
+{Body}
+value{index}
+{End}
 
 # ========== string_value ========
 
