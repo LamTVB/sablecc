@@ -487,11 +487,15 @@ public class CodeGenerationWalker
                     this.factory.newRedefinedApplyInitializer());
         }
 
-        if (!this.currentMacroIsAbstract && !this.currentMacroIsAllVersionned) {
+        if (!this.currentMacroIsAbstract
+                && !this.currentMacroIsAllVersionned) {
 
             this.currentConstructor.addSuper(this.factory.newSuperCall());
-            this.currentParameteredConstructor
-                    .addSuper(this.factory.newSuperCall());
+            if(node.getParams().size() > 0) {
+                this.currentParameteredConstructor
+                        .addSuper(this.factory.newSuperCall());
+            }
+
             MAppliedVersion appliedVersion = this.factory.newAppliedVersion();
             this.currentMacroToBuild.addAppliedVersion(appliedVersion);
 
