@@ -241,7 +241,7 @@ public class MacroInfo {
         }
     }
 
-    void addVersion(
+    public void addVersion(
             MacroVersion version) {
 
         this.versions.add(version);

@@ -870,12 +870,14 @@ public class ObjectMacro {
         Iterator<MacroVersion> versionIterator
                 = macroInfo.getVersions().iterator();
         MacroInfo toReturn = null;
+
         while (versionIterator.hasNext()) {
             MacroVersion macroVersion = versionIterator.next();
             toReturn = macroVersion.getMacroOrNull(macro_reference.getName());
-            if (toReturn != null && toReturn.getAllInternals().size() > 0
-                    && toReturn.getAllInternals().size() == macro_reference
-                            .getValues().size()) {
+
+            if (toReturn != null
+                    && toReturn.getAllInternals().size() > 0
+                    && toReturn.getAllInternals().size() == macro_reference.getValues().size()) {
                 break;
             }
         }

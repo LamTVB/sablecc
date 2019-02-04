@@ -49,6 +49,12 @@ public class IntermediateObjectCollector
                     = this.globalIndex.getVersion(version_identifier);
             this.currentMacroInfo
                     = this.globalIndex.getMacro(node.getName(), version);
+
+            while(iterator.hasNext()) {
+                version_identifier = iterator.next();
+                version = this.globalIndex.getVersion(version_identifier);
+                this.currentMacroInfo.addVersion(version);
+            }
             this.globalIndex.addIntermediateMacro(this.currentMacroInfo);
 
             super.caseAMacro(node);
