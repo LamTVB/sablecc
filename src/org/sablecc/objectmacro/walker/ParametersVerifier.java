@@ -60,6 +60,7 @@ public class ParametersVerifier
         if (node.getVersions().size() > 0 && !this.globalIndex
                 .isAllVersionned(node.getName().getText())) {
 
+            //For whichever version of the current macro
             Iterator<TIdentifier> iterator = node.getVersions().iterator();
             TIdentifier version_identifier = iterator.next();
             MacroVersion version
@@ -83,7 +84,9 @@ public class ParametersVerifier
             MacroInfo versionned_macro = version
                     .getMacroOrNull(this.currentMacroInfo.getNameDeclaration());
 
-            if (this.currentMacroInfo != versionned_macro) {
+            if (versionned_macro != null
+                    && this.currentMacroInfo != versionned_macro) {
+
                 if (!versionned_macro.containsParam(expected_param)) {
                     throw CompilerException.missingParameter(
                             versionned_macro.getNameDeclaration(), version,
