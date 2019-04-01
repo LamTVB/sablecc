@@ -24,6 +24,10 @@ import org.sablecc.objectmacro.structure.*;
 import org.sablecc.objectmacro.syntax3.analysis.*;
 import org.sablecc.objectmacro.syntax3.node.*;
 
+/**
+ * This class verifies if every internal is common to each version of a macro
+ * in case of the macro is referenced by an all versionned macro.
+ */
 public class InternalsVerifier
         extends DepthFirstAdapter {
 
@@ -70,6 +74,10 @@ public class InternalsVerifier
     @Override
     public void caseAInternal(
             AInternal node) {
+
+        if(this.currentMacroInfo == null){
+            return;
+        }
 
         Param expected_param = this.currentMacroInfo.getParam(node.getName());
 
